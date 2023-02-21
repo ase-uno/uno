@@ -9,10 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>0-uno-domain</module>
-        <module>1-uno-application</module>
-        <module>2-uno-adapters</module>
-        <module>3-uno-plugins</module>
+        <module>3-uno-domain</module>
+        <module>2-uno-application</module>
+        <module>1-uno-adapters</module>
+        <module>0-uno-plugins</module>
     </modules>
 
     <properties>
