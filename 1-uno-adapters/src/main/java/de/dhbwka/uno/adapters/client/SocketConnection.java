@@ -3,7 +3,6 @@ package de.dhbwka.uno.adapters.client;
 import de.dhbwka.uno.adapters.json.*;
 import de.dhbwka.uno.adapters.mapper.CardMapper;
 import de.dhbwka.uno.adapters.mapper.CardStackMapper;
-import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
 import de.dhbwka.uno.adapters.mapper.PlayerMapper;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
@@ -14,6 +13,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class SocketConnection {
 
@@ -84,11 +86,30 @@ public class SocketConnection {
             }
             case "broadcastHighScore" -> {
                 JsonObject jsonObject1 = (JsonObject) element;
-                HighScore highScore = HighScoreMapper.highScoreFromJson(jsonObject1.get("highScore"));
+                HighScore highScore = highScoreFromJson(jsonObject1.get("highScore"));
                 playerConnection.broadcastHighScore(highScore);
             }
             default -> console.error("Error, invalid message received from Server");
         }
+    }
+
+    private HighScore highScoreFromJson(JsonElement jsonElement) {
+        if(jsonElement instanceof JsonNull) return new HighScore();
+
+        JsonObject jsonObject = (JsonObject) jsonElement;
+
+        HashMap<SimplePlayer, Integer> data = jsonObject.getElements()
+                .entrySet()
+                .stream()
+                .map(e -> new AbstractMap.SimpleEntry<>(new SimplePlayer(e.getKey()), ((JsonNumber) e.getValue()).getValue().intValue()))
+                .collect(Collectors.toMap(
+                        AbstractMap.SimpleEntry::getKey,
+                        AbstractMap.SimpleEntry::getValue,
+                        Integer::sum,
+                        HashMap::new
+                ));
+
+        return new HighScore(data);
     }
 
     private void returnValue(JsonElement jsonElement) {
