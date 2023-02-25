@@ -9,9 +9,10 @@ public class CardNumberTest {
 
     @Test
     public void setNumberSuccess() {
-        CardNumber number = new CardNumber(2);
-
-        assertEquals(number.getValue(), 2);
+        for(int i = 0; i <= 9; i++) {
+            CardNumber number = new CardNumber(i);
+            assertEquals(number.getValue(), i);
+        }
     }
 
     @Test

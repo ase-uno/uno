@@ -3,17 +3,17 @@ package de.dhbwka.uno.domain;
 import java.util.Objects;
 
 public class CardNumber {
-    private Integer value;
+    private int value;
 
-    public CardNumber(Integer value) {
+    public CardNumber(int value) {
         setValue(value);
     }
 
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(int value) {
         if(value < 0 || value > 9) {
             throw new IllegalArgumentException("Numbers only allowed in Interval [0, 9]");
         }
