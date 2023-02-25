@@ -11,9 +11,9 @@ public class CardNumberTest {
     public void setNumberSuccess() {
         CardNumber number = new CardNumber(1);
 
-        number.setNumber(2);
+        number.setValue(2);
 
-        assertEquals(number.getNumber(), 2);
+        assertEquals(number.getValue(), 2);
     }
 
     @Test
@@ -23,7 +23,7 @@ public class CardNumberTest {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                number.setNumber(-1);
+                number.setValue(-1);
             }
         });
     }
@@ -35,7 +35,7 @@ public class CardNumberTest {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                number.setNumber(10);
+                number.setValue(10);
             }
         });
     }

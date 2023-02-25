@@ -3,21 +3,21 @@ package de.dhbwka.uno.domain;
 import java.util.Objects;
 
 public class CardNumber {
-    private Integer number;
+    private Integer value;
 
-    public CardNumber(Integer number) {
-        setNumber(number);
+    public CardNumber(Integer value) {
+        setValue(value);
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getValue() {
+        return value;
     }
 
-    public void setNumber(Integer number) {
-        if(number < 0 || number > 9) {
+    public void setValue(Integer value) {
+        if(value < 0 || value > 9) {
             throw new IllegalArgumentException("Numbers only allowed in Interval [0, 9]");
         }
-        this.number = number;
+        this.value = value;
     }
 
     @Override
@@ -25,18 +25,18 @@ public class CardNumber {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardNumber that = (CardNumber) o;
-        return Objects.equals(number, that.number);
+        return Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number);
+        return Objects.hash(value);
     }
 
     @Override
     public String toString() {
         return "CardNumber{" +
-                "number=" + number +
+                "value=" + value +
                 '}';
     }
 
