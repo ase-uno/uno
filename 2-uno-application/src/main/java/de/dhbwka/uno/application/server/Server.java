@@ -1,5 +1,6 @@
 package de.dhbwka.uno.application.server;
 
+import de.dhbwka.uno.application.config.ConnectionConfig;
 import de.dhbwka.uno.application.game.*;
 import de.dhbwka.uno.application.io.ConsoleOut;
 import de.dhbwka.uno.application.model.PlayerWithConnection;
@@ -94,7 +95,7 @@ public class Server extends ConnectionInstance {
     private void startServer() throws IOException {
 
         console.println("Waiting for players");
-        serverSocket = new ServerSocket(9999);
+        serverSocket = new ServerSocket(ConnectionConfig.SOCKET_PORT);
 
         Thread thread = new Thread(() -> {
             while(isServerSearchingForInput) {

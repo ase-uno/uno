@@ -5,6 +5,7 @@ import de.dhbwka.uno.adapters.mapper.CardMapper;
 import de.dhbwka.uno.adapters.mapper.CardStackMapper;
 import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
 import de.dhbwka.uno.adapters.mapper.PlayerMapper;
+import de.dhbwka.uno.application.config.ConnectionConfig;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.ConsoleOut;
@@ -38,7 +39,7 @@ public class SocketConnection {
     }
 
     private void connect(String ip, String name) throws IOException {
-        socket = new Socket(ip, 9999);
+        socket = new Socket(ip, ConnectionConfig.SOCKET_PORT);
         returnValue(new JsonString(name));
         console.println(ConsoleColor.GREEN, "Connected");
     }
