@@ -1,11 +1,11 @@
 package de.dhbwka.uno.application.server;
 
+import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
 import de.dhbwka.uno.application.game.*;
 import de.dhbwka.uno.application.io.ConsoleOut;
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.model.SocketNameCombination;
 import de.dhbwka.uno.application.model.SocketNameCombinationFactory;
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardStack;
 import de.dhbwka.uno.domain.Player;
@@ -31,7 +31,7 @@ public class Server extends ConnectionInstance {
     private final ConsoleOut console;
     private final CardProvider cardProvider;
 
-    private final HighScoreStorageRepository highScoreStorageRepository;
+    private final HighScoreStorage highScoreStorageRepository;
 
     private final PlayerConnectionFactory playerConnectionFactory;
     private final SocketNameCombinationFactory socketNameCombinationFactory;
@@ -39,7 +39,7 @@ public class Server extends ConnectionInstance {
     public Server(String localName,
                   ConsoleOut console,
                   CardProvider cardProvider,
-                  HighScoreStorageRepository highScoreStorageRepository,
+                  HighScoreStorage highScoreStorageRepository,
                   PlayerConnectionFactory playerConnectionFactory,
                   SocketNameCombinationFactory socketNameCombinationFactory) throws IOException {
         super(localName);

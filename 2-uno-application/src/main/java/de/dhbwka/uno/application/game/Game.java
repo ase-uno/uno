@@ -1,8 +1,8 @@
 package de.dhbwka.uno.application.game;
 
 
+import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
 import de.dhbwka.uno.application.model.PlayerWithConnection;
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.*;
 
 import java.util.List;
@@ -16,14 +16,14 @@ public class Game {
     private Card activeCard;
     private int activeIndex = 0;
     private int direction = 1;
-    private final HighScoreStorageRepository highScoreStorageRepository;
+    private HighScoreStorage highScoreStorageRepository;
 
 
     public Game(
             List<PlayerWithConnection> players,
             CardStack cardStack,
             Card activeCard,
-            HighScoreStorageRepository highScoreStorageRepository) {
+            HighScoreStorage highScoreStorageRepository) {
         this.players = players;
         this.cardStack = cardStack;
         this.activeCard = activeCard;
@@ -36,7 +36,7 @@ public class Game {
             next();
         }
         Player winner = getWinner();
-        highScoreStorageRepository.addWin(winner);
+        highScoreStorageRepository.addWinToJsonFile(winner);
         broadcastWinner(winner);
         broadcastHighScore();
     }
@@ -45,7 +45,7 @@ public class Game {
         List<SimplePlayer> simplePlayers = players.stream()
                 .map(pwc -> (SimplePlayer) pwc.getPlayer())
                 .toList();
-        HighScore highScore = highScoreStorageRepository.getHighScore()
+        HighScore highScore = highScoreStorageRepository.loadHighScoreFromJsonFile()
                 .filter(simplePlayers);
         for(PlayerWithConnection p : players) {
             p.getPlayerConnection().broadcastHighScore(highScore);
