@@ -9,35 +9,19 @@ public class CardNumberTest {
 
     @Test
     public void setNumberSuccess() {
-        CardNumber number = new CardNumber(1);
-
-        number.setValue(2);
+        CardNumber number = new CardNumber(2);
 
         assertEquals(number.getValue(), 2);
     }
 
     @Test
     public void setNumberFailNeg() {
-        CardNumber number = new CardNumber(1);
-
-        assertThrows(IllegalArgumentException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                number.setValue(-1);
-            }
-        });
+        assertThrows(IllegalArgumentException.class, () -> new CardNumber(-1));
     }
 
     @Test
     public void setNumberFailPos() {
-        CardNumber number = new CardNumber(1);
-
-        assertThrows(IllegalArgumentException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                number.setValue(10);
-            }
-        });
+        assertThrows(IllegalArgumentException.class, () -> new CardNumber(10));
     }
 
 }
