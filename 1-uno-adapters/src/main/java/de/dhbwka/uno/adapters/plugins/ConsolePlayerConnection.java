@@ -58,7 +58,6 @@ public class ConsolePlayerConnection implements PlayerConnection {
 
     private void printCard(Card card) {
         String filePath = getFilePathForCard(card);
-        System.out.println(filePath);
         ConsoleColor color = cardColorToConsoleColor(card.getColor());
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(filePath);
