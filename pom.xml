@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>main</module>
         <module>3-uno-domain</module>
         <module>2-uno-application</module>
         <module>1-uno-adapters</module>
@@ -21,26 +22,6 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.9.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.dhbwka.uno</groupId>
-            <artifactId>plugins</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.dhbwka.uno</groupId>
-            <artifactId>adapters</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.dhbwka.uno</groupId>
-            <artifactId>application</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>de.dhbwka.uno</groupId>
-            <artifactId>domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
