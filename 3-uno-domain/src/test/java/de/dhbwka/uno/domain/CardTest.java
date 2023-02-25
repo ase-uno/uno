@@ -35,7 +35,7 @@ public class CardTest {
 
     @Test
     public void compatibleChangeColor() {
-        Card card = new Card(CardColor.BLUE);
+        Card card = new Card(CardColor.BLUE, new CardNumber(1));
 
         Card card2 = new Card(CardColor.RED, new CardAction(Action.CHANGE_COLOR, 0));
 

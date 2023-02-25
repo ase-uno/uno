@@ -22,7 +22,7 @@ public class CardMapper {
         if(card == null) return new JsonNull();
 
         HashMap<String, JsonElement> props = new HashMap<>();
-        props.put(CARD_CARDNUMBER, cardNumberToJson(card.getCardNumber()));
+        props.put(CARD_CARDNUMBER, cardNumberToJson(card.getNumber()));
         props.put(CARD_CARDCOLOR, cardColorToJson(card.getColor()));
         props.put(CARD_ACTION, cardActionToJson(card.getAction()));
 
@@ -33,7 +33,7 @@ public class CardMapper {
         if(cardNumber == null) return new JsonNull();
 
         HashMap<String, JsonElement> props = new HashMap<>();
-        props.put(CARDNUMBER_NUMBER, new JsonNumber(cardNumber.getNumber()));
+        props.put(CARDNUMBER_NUMBER, new JsonNumber(cardNumber.getValue()));
 
         return new JsonObject(props);
     }
