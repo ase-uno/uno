@@ -11,7 +11,6 @@ class ConnectionInstanceTest {
         final String name = "Heinrich Schwarz";
 
         ConnectionInstance con = new ConnectionInstance(name);
-
         assertEquals(con.getLocalName(), name);
     }
 }
