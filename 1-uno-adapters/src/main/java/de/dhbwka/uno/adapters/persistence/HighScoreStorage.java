@@ -3,12 +3,13 @@ package de.dhbwka.uno.adapters.persistence;
 import de.dhbwka.uno.adapters.json.JsonNumber;
 import de.dhbwka.uno.adapters.json.JsonObject;
 import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
+import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.HighScore;
 import de.dhbwka.uno.domain.SimplePlayer;
 
 import java.io.File;
 
-public class HighScoreStorage {
+public class HighScoreStorage implements HighScoreStorageRepository {
 
     private final AbstractStorageRepository abstractStorageRepository;
     private static final String FILE_PATH = "storage" + File.separator + "highscore.json";
@@ -17,7 +18,8 @@ public class HighScoreStorage {
         this.abstractStorageRepository = abstractStorageRepository;
     }
 
-    public void addWinToJsonFile(SimplePlayer player) {
+    @Override
+    public void addWin(SimplePlayer player) {
 
         JsonObject jsonObject = getHighScoreFile();
         System.out.println(jsonObject.toJson());
@@ -29,7 +31,8 @@ public class HighScoreStorage {
 
     }
 
-    public HighScore loadHighScoreFromJsonFile() {
+    @Override
+    public HighScore getHighScore() {
 
         JsonObject jsonObject = getHighScoreFile();
         return HighScoreMapper.highScoreFromJson(jsonObject);
