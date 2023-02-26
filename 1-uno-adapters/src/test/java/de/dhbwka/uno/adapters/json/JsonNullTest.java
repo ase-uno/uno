@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JsonNullTest {
+class JsonNullTest {
 
     @Test
-    public void toJson() {
+    void toJson() {
         JsonNull jsonNull = new JsonNull();
 
-        assertEquals(jsonNull.toJson(), "null");
+        assertEquals("null", jsonNull.toJsonString());
     }
 
 }

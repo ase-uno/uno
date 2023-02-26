@@ -13,10 +13,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HighScoreMapperTest {
+class HighScoreMapperTest {
 
     @Test
-    public void highScoreToJson() {
+    void highScoreToJson() {
         Map<SimplePlayer, Integer> scores = new HashMap<>();
         scores.put(new SimplePlayer("Noah"), 123);
         scores.put(new SimplePlayer("Jens"), 456);
@@ -26,20 +26,20 @@ public class HighScoreMapperTest {
 
         JsonObject json = HighScoreMapper.highScoreToJson(highScore);
 
-        assertEquals(json.toJson(), "{\"Mathe Mann\":789,\"Jens\":456,\"Noah\":123}");
+        assertEquals("{\"Mathe Mann\":789,\"Jens\":456,\"Noah\":123}", json.toJsonString());
     }
 
     @Test
-    public void highScoreFromJsonNull() {
+    void highScoreFromJsonNull() {
         JsonElement json = new JsonNull();
 
         HighScore highScore = HighScoreMapper.highScoreFromJson(json);
 
-        assertEquals(highScore.getElements().size(), 0);
+        assertEquals(0, highScore.getElements().size());
     }
 
     @Test
-    public void highScoreFromJson() {
+    void highScoreFromJson() {
         JsonObject json = new JsonObject();
         json.set("Noah", new JsonNumber(123));
         json.set("Jens", new JsonNumber(456));
@@ -47,10 +47,10 @@ public class HighScoreMapperTest {
 
         HighScore highScore = HighScoreMapper.highScoreFromJson(json);
 
-        assertEquals(highScore.getElements().size(), 3);
-        assertEquals(highScore.getElements().containsValue(123), true);
-        assertEquals(highScore.getElements().containsValue(456), true);
-        assertEquals(highScore.getElements().containsValue(789), true);
+        assertEquals(3, highScore.getElements().size());
+        assertTrue(highScore.getElements().containsValue(123));
+        assertTrue(highScore.getElements().containsValue(456));
+        assertTrue(highScore.getElements().containsValue(789));
     }
 
 }

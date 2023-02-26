@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JsonStringTest {
+class JsonStringTest {
 
     @Test
-    public void getValue() {
+    void getValue() {
         String s = "Wird hier gebaut?";
 
         JsonString string = new JsonString(s);
@@ -16,24 +16,24 @@ public class JsonStringTest {
     }
 
     @Test
-    public void toJson() {
+    void toJson() {
         JsonString string = new JsonString("I bims 1 String");
 
-        assertEquals(string.toJson(), "\"I bims 1 String\"");
+        assertEquals("\"I bims 1 String\"", string.toJsonString());
     }
 
     @Test
-    public void toJsonEscape1() {
+    void toJsonEscape1() {
         JsonString string = new JsonString("\\");
 
-        assertEquals(string.toJson(), "\"\\\\\"");
+        assertEquals("\"\\\\\"", string.toJsonString());
     }
 
     @Test
-    public void toJsonEscape2() {
+    void toJsonEscape2() {
         JsonString string = new JsonString("\\\\");
 
-        assertEquals(string.toJson(), "\"\\\\\\\\\"");
+        assertEquals("\"\\\\\\\\\"", string.toJsonString());
     }
 
 }

@@ -7,15 +7,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CardGeneratorTest {
+class CardGeneratorTest {
 
     @Test
-    public void listAllCards() {
+    void listAllCards() {
         CardGenerator generator = new CardGenerator();
 
         List<Card> cards = generator.listAllCards();
 
-        assertEquals(cards.size(), 54);
+        assertEquals(54, cards.size());
     }
 
 }

@@ -7,10 +7,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JsonArrayTest {
+class JsonArrayTest {
 
     @Test
-    public void getElements() {
+    void getElements() {
         List<JsonElement> elements = new ArrayList<>();
         elements.add(new JsonNull());
 
@@ -20,7 +20,7 @@ public class JsonArrayTest {
     }
 
     @Test
-    public void toJson() {
+    void toJson() {
         List<JsonElement> elements = new ArrayList<>();
         elements.add(new JsonNull());
         elements.add(new JsonNumber(4711));
@@ -28,7 +28,7 @@ public class JsonArrayTest {
 
         JsonArray arr = new JsonArray(elements);
 
-        assertEquals(arr.toJson(), "[null,4711,\"hehe\"]");
+        assertEquals("[null,4711,\"hehe\"]", arr.toJsonString());
     }
 
 }

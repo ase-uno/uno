@@ -11,10 +11,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class NPCPlayerConnectionTest {
+class NPCPlayerConnectionTest {
 
     @Test
-    public void input() {
+    void input() {
         Card activeCard = new Card(CardColor.BLUE, new CardNumber(1));
         List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardColor.RED, new CardNumber(2)));

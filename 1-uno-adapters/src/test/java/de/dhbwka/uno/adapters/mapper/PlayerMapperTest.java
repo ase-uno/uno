@@ -8,25 +8,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlayerMapperTest {
+class PlayerMapperTest {
 
     @Test
-    public void playerDTOToJson() {
+    void playerDTOToJson() {
         SimplePlayer player = new SimplePlayer("Klaus");
 
         JsonElement json = PlayerMapper.playerDTOToJson(player);
 
-        assertEquals(json.toJson(), "{\"name\":\"Klaus\"}");
+        assertEquals("{\"name\":\"Klaus\"}", json.toJsonString());
     }
 
     @Test
-    public void playerDTOFromJson() {
+    void playerDTOFromJson() {
         JsonObject json = new JsonObject();
         json.set("name", new JsonString("Klaus"));
 
         SimplePlayer player = PlayerMapper.playerDTOFromJson(json);
 
-        assertEquals(player.getName(), "Klaus");
+        assertEquals("Klaus", player.getName());
     }
 
 }
