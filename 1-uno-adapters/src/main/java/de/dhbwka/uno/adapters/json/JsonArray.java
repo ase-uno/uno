@@ -16,9 +16,9 @@ public class JsonArray implements JsonElement {
     }
 
     @Override
-    public String toJson() {
+    public String toJsonString() {
         return "[" + elements.stream()
-                .map(JsonElement::toJson)
+                .map(JsonElement::toJsonString)
                 .collect(Collectors.joining(","))
                 + "]";
     }

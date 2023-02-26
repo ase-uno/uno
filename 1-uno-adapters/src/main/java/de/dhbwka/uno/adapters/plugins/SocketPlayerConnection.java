@@ -43,11 +43,11 @@ public class SocketPlayerConnection implements PlayerConnection {
 
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            dataOutputStream.writeUTF(jsonObject.toJson());
+            dataOutputStream.writeUTF(jsonObject.toJsonString());
 
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             String response = dataInputStream.readUTF();
-            JsonElement jsonElement = new JsonConverter().fromJson(response);
+            JsonElement jsonElement = new JsonConverter().fromJsonString(response);
            return CardMapper.cardFromJson(jsonElement);
         } catch (Exception e) {
             return null;
@@ -63,11 +63,11 @@ public class SocketPlayerConnection implements PlayerConnection {
 
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            dataOutputStream.writeUTF(jsonObject.toJson());
+            dataOutputStream.writeUTF(jsonObject.toJsonString());
 
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             String response = dataInputStream.readUTF();
-            JsonElement jsonResponse = new JsonConverter().fromJson(response);
+            JsonElement jsonResponse = new JsonConverter().fromJsonString(response);
             return CardMapper.cardColorFromJson(jsonResponse);
         } catch (Exception e) {
             return null;
@@ -112,7 +112,7 @@ public class SocketPlayerConnection implements PlayerConnection {
     private void broadcastMessage(JsonObject jsonObject) {
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            dataOutputStream.writeUTF(jsonObject.toJson());
+            dataOutputStream.writeUTF(jsonObject.toJsonString());
         } catch (Exception ignored) {
             //ignore error for this message
         }

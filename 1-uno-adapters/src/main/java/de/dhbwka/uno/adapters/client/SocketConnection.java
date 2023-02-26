@@ -39,7 +39,7 @@ public class SocketConnection {
 
     private void connect(String ip, String name) throws IOException {
         socket = new Socket(ip, 9999);
-        returnValue(new JsonString(name));
+        returnResponseToServer(new JsonString(name));
         console.println(ConsoleColor.GREEN, "Connected");
     }
 
@@ -55,7 +55,7 @@ public class SocketConnection {
     }
 
     private void parseMessage(String message) throws JsonConvertException {
-        JsonObject jsonObject = (JsonObject) new JsonConverter().fromJson(message);
+        JsonObject jsonObject = (JsonObject) new JsonConverter().fromJsonString(message);
 
         String action = ((JsonString) jsonObject.get("action")).getValue();
         JsonElement element = jsonObject.get("data");
@@ -66,11 +66,11 @@ public class SocketConnection {
                 CardStack cardStack = CardStackMapper.cardStackFromJson(jsonObject1.get("cardStack"));
 
                 Card card = playerConnection.input(active, cardStack);
-                returnValue(CardMapper.cardToJson(card));
+                returnResponseToServer(CardMapper.cardToJson(card));
             }
             case "inputColor" -> {
                 CardColor color = playerConnection.inputColor();
-                returnValue(CardMapper.cardColorToJson(color));
+                returnResponseToServer(CardMapper.cardColorToJson(color));
             }
             case "broadcastWinner" -> {
                 JsonObject jsonObject1 = (JsonObject) element;
@@ -91,10 +91,10 @@ public class SocketConnection {
         }
     }
 
-    private void returnValue(JsonElement jsonElement) {
+    private void returnResponseToServer(JsonElement jsonElement) {
         try {
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-            dataOutputStream.writeUTF(jsonElement.toJson());
+            dataOutputStream.writeUTF(jsonElement.toJsonString());
         } catch (Exception e) {
             console.error("Exception on returning Server message");
             e.printStackTrace();

@@ -15,7 +15,7 @@ public class SocketNameCombinationFactoryImpl implements SocketNameCombinationFa
 
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-            JsonElement jsonElement = new JsonConverter().fromJson(dataInputStream.readUTF());
+            JsonElement jsonElement = new JsonConverter().fromJsonString(dataInputStream.readUTF());
             String remoteName = ((JsonString) jsonElement).getValue();
             return new SocketNameCombination(socket, remoteName);
         } catch (Exception e) {

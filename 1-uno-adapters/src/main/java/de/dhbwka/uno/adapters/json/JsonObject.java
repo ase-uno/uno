@@ -29,11 +29,11 @@ public class JsonObject implements JsonElement {
         elements.put(key, jsonElement);
     }
     @Override
-    public String toJson() {
+    public String toJsonString() {
         return "{" +
                 elements.entrySet()
                         .stream()
-                        .map(e -> new JsonString(e.getKey()).toJson() + ":" + e.getValue().toJson())
+                        .map(e -> new JsonString(e.getKey()).toJsonString() + ":" + e.getValue().toJsonString())
                         .collect(Collectors.joining(","))
                 + "}";
     }

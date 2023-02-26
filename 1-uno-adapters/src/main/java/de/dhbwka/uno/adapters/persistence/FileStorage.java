@@ -14,7 +14,7 @@ public class FileStorage implements AbstractStorageRepository {
 
         try {
             String content = new String(Files.readAllBytes(Path.of(fileName)));
-            return new JsonConverter().fromJson(content);
+            return new JsonConverter().fromJsonString(content);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -33,7 +33,7 @@ public class FileStorage implements AbstractStorageRepository {
             return;
         }
         try (FileWriter fileWriter = new FileWriter(fileName)) {
-            fileWriter.write(content.toJson());
+            fileWriter.write(content.toJsonString());
         } catch (IOException ignored) {
             //if it does not work, we just ignore it :)
         }

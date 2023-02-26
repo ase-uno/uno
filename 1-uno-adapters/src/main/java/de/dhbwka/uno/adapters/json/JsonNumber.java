@@ -17,7 +17,7 @@ public class JsonNumber implements JsonElement {
     }
 
     @Override
-    public String toJson() {
+    public String toJsonString() {
         return value + "";
     }
 }

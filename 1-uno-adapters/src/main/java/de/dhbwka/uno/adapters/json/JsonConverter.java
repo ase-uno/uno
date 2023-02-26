@@ -11,7 +11,7 @@ public class JsonConverter {
     private int index = 0;
 
 
-    public JsonElement fromJson(String json) throws JsonConvertException {
+    public JsonElement fromJsonString(String json) throws JsonConvertException {
 
         String firstCharacter = json.split("")[index];
 
@@ -29,7 +29,7 @@ public class JsonConverter {
         List<JsonElement> list = new ArrayList<>();
         index++;
         while(!json.split("")[index].equals("]")) {
-            list.add(fromJson(json));
+            list.add(fromJsonString(json));
             if(!json.split("")[index].equals(",")) {
                 break;
             }
@@ -49,7 +49,7 @@ public class JsonConverter {
                 throw new JsonConvertException(index);
             }
             index++;
-            JsonElement value = fromJson(json);
+            JsonElement value = fromJsonString(json);
             list.put(key.getValue(), value);
             if(!json.split("")[index].equals(",")) {
                 break;

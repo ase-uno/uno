@@ -22,11 +22,11 @@ public class HighScoreStorage implements HighScoreStorageRepository {
     public void addWin(SimplePlayer player) {
 
         JsonObject jsonObject = getHighScoreFile();
-        System.out.println(jsonObject.toJson());
+        System.out.println(jsonObject.toJsonString());
         int wins = getWins(jsonObject, player);
         System.out.println(wins);
         jsonObject.set(player.getName(), new JsonNumber(wins + 1));
-        System.out.println(jsonObject.toJson());
+        System.out.println(jsonObject.toJsonString());
         abstractStorageRepository.storeFile(FILE_PATH, jsonObject);
 
     }
