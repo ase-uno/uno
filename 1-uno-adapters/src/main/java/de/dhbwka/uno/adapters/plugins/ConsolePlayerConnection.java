@@ -47,7 +47,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
     private String cardToString(Card card) {
         Integer number = null;
         String color = null;
-        if(card.getCardNumber() != null) number = card.getCardNumber().getNumber();
+        if(card.getNumber() != null) number = card.getNumber().getValue();
         if(card.getColor() != null) color = card.getColor().getName();
         return "color=" + color + ", cardNumber=" + number + ", action=" + card.getAction();
     }
@@ -78,8 +78,8 @@ public class ConsolePlayerConnection implements PlayerConnection {
 
         String path = "";
 
-        if(card.getCardNumber() != null) {
-            path += "numbers/" + card.getCardNumber().getNumber() + ".txt";
+        if(card.getNumber() != null) {
+            path += "numbers/" + card.getNumber().getValue() + ".txt";
         } else if(card.hasAction()) {
             path += "actions/";
             String actionName = card.getAction().getAction().name().toLowerCase();

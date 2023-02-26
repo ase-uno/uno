@@ -17,7 +17,7 @@ public class CardStackTest {
 
         assertEquals(stack.getCardList().size(), 0);
 
-        Card card = new Card(CardColor.BLUE);
+        Card card = new Card(CardColor.BLUE, new CardNumber(1));
         stack.add(card);
 
         assertEquals(stack.getCardList().get(0), card);
@@ -26,7 +26,7 @@ public class CardStackTest {
     @Test
     public void remove() {
         List<Card> cards = new ArrayList<>();
-        Card card = new Card(CardColor.BLUE);
+        Card card = new Card(CardColor.BLUE, new CardNumber(1));
         cards.add(card);
 
         CardStack stack = new CardStack(cards);
@@ -50,7 +50,7 @@ public class CardStackTest {
     @Test
     public void isNotFinished() {
         List<Card> cards = new ArrayList<>();
-        cards.add(new Card(CardColor.BLUE));
+        cards.add(new Card(CardColor.BLUE, new CardNumber(1)));
 
         CardStack stack = new CardStack(cards);
 

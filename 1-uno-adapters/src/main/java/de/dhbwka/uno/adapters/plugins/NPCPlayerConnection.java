@@ -18,14 +18,11 @@ public class NPCPlayerConnection implements PlayerConnection {
 
     @Override
     public Card input(Card active, CardStack cardStack) {
-        System.out.println(name + ": cards: " + cardStack.getCardList().size());
         for(Card card: cardStack.getCardList()) {
             if(active.isCompatibleWith(card)) {
-                System.out.println(name + ": set" + card);
                 return card;
             }
         }
-        System.out.println(name + ": draw");
         return null;
     }
 
