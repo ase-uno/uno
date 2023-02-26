@@ -1,7 +1,5 @@
 package de.dhbwka.uno.domain;
 
-import java.util.Objects;
-
 public class Player extends SimplePlayer {
     private final CardStack cardStack;
 
@@ -25,7 +23,7 @@ public class Player extends SimplePlayer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), cardStack);
+        return super.hashCode();
     }
 
 }
