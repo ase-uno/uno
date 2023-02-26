@@ -32,19 +32,15 @@ public class ConsolePlayerConnection implements PlayerConnection {
             console.println(i + ") " + cardToString(cardStack.getCardList().get(i)));
         }
 
-        Scanner scanner = new Scanner(System.in);
-        int input = -2;
-        do {
-            try {
-                console.println("Input:");
-                input = scanner.nextInt();
-            } catch (Exception ignored) {
-                //if an error occurs, new user-input is requested by the loop
-            }
-        } while(input < -1 || input >= cardStack.getCardList().size());
+        Card card = requestCardSelection(cardStack);
         console.println();
-        if(input == -1) return null;
+        return card;
+    }
 
+    private Card requestCardSelection(CardStack cardStack) {
+        int input = requestUserInputSelection(-1, cardStack.getCardList().size());
+
+        if(input == -1) return null;
         return cardStack.getCardList().get(input);
     }
 
@@ -119,16 +115,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
             console.println(i + ") " + CardColor.values()[i].getName());
         }
 
-        Scanner scanner = new Scanner(System.in);
-        int input = -1;
-        do {
-            try {
-                console.println("Input:");
-                input = scanner.nextInt();
-            } catch (Exception ignored) {
-                //if an error occurs, new user-input is requested by the loop
-            }
-        } while(input < 0 || input >= CardColor.values().length);
+        int input = requestUserInputSelection(0, CardColor.values().length);
         console.println();
 
         return CardColor.values()[input];
@@ -153,5 +140,19 @@ public class ConsolePlayerConnection implements PlayerConnection {
         console.println("High score:");
         highScore.getElements()
                 .forEach((key, value) -> console.println(key.getName() + ": " + value));
+    }
+
+    private int requestUserInputSelection(int min, int maxExcluded) {
+        Scanner scanner = new Scanner(System.in);
+        int input = min - 1;
+        do {
+            try {
+                console.println("Input:");
+                input = scanner.nextInt();
+            } catch (Exception ignored) {
+                //if an error occurs, new user-input is requested by the loop
+            }
+        } while (input < min || input >= maxExcluded);
+        return input;
     }
 }
