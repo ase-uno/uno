@@ -12,7 +12,7 @@ public class MockedPlayerConnection implements PlayerConnection {
 
 
     @Override
-    public Card input(Card active, CardStack cardStack) {
+    public Card playCard(Card active, CardStack cardStack) {
         inputCalled++;
 
         for(Card card: cardStack.getCardList()) {
@@ -22,7 +22,7 @@ public class MockedPlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public CardColor inputColor() {
+    public CardColor selectColor() {
         inputColorCalled++;
         return CardColor.RED;
     }

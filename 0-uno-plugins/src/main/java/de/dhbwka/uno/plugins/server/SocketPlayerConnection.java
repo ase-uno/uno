@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.server;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.adapters.json.JsonConverter;
 import de.dhbwka.uno.adapters.json.JsonElement;
@@ -28,7 +28,7 @@ public class SocketPlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public Card input(Card active, CardStack cardStack) {
+    public Card playCard(Card active, CardStack cardStack) {
 
         HashMap<String, JsonElement> data = new HashMap<>();
         data.put("active", CardMapper.cardToJson(active));
@@ -55,7 +55,7 @@ public class SocketPlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public CardColor inputColor() {
+    public CardColor selectColor() {
         HashMap<String, JsonElement> request = new HashMap<>();
         request.put(ACTION, new JsonString("inputColor"));
 

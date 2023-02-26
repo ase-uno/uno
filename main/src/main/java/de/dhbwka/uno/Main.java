@@ -1,21 +1,26 @@
 package de.dhbwka.uno;
 
-import de.dhbwka.uno.adapters.client.SocketConnectionInitializerImpl;
-import de.dhbwka.uno.adapters.game.PlayerConnectionFactoryImpl;
-import de.dhbwka.uno.adapters.model.SocketNameCombinationFactoryImpl;
-import de.dhbwka.uno.plugins.FileStorage;
 import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
-import de.dhbwka.uno.application.game.CardProviderImpl;
-import de.dhbwka.uno.plugins.ConsoleOutImpl;
 import de.dhbwka.uno.application.client.Client;
+import de.dhbwka.uno.application.game.CardProviderImpl;
+import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.Server;
+import de.dhbwka.uno.domain.SimplePlayer;
+import de.dhbwka.uno.plugins.ConnectionServerSocket;
+import de.dhbwka.uno.plugins.ConsoleOutImpl;
+import de.dhbwka.uno.plugins.FileStorage;
+import de.dhbwka.uno.plugins.client.ConnectionInitializerImpl;
+import de.dhbwka.uno.plugins.game.PlayerConnectionFactoryImpl;
+import de.dhbwka.uno.plugins.server.ConsolePlayerConnection;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    private static final int PORT = 9999;
 
     private static final ConsoleOut console = new ConsoleOutImpl();
 
@@ -45,7 +50,6 @@ public class Main {
     }
 
 
-
     private static int inputMode() {
 
         Scanner scanner = new Scanner(System.in);
@@ -67,20 +71,21 @@ public class Main {
         return input;
     }
 
-    private static void start(String name, int mode) throws IOException {
+    private static void start(String name, int mode) {
 
-        if(mode == 0) {
-            new Server(name,
+        if (mode == 0) {
+            SimplePlayer player = new SimplePlayer(name);
+            PlayerConnection connection = new ConsolePlayerConnection(console);
+
+            new Server(new SimplePlayerWithConnection(player, connection),
+                    new ConnectionServerSocket(PORT),
                     console,
                     new CardProviderImpl(),
-                    new HighScoreStorage(new FileStorage()),
-                    new PlayerConnectionFactoryImpl(console),
-                    new SocketNameCombinationFactoryImpl());
+                    new HighScoreStorage(new FileStorage()));
         } else {
-            new Client(name,
-                    console,
+            new Client(name, console,
                     new PlayerConnectionFactoryImpl(console),
-                    new SocketConnectionInitializerImpl());
+                    new ConnectionInitializerImpl(PORT));
         }
     }
 

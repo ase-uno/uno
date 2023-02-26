@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.server;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.domain.*;
@@ -17,7 +17,7 @@ public class NPCPlayerConnection implements PlayerConnection {
     private final Random random = new Random();
 
     @Override
-    public Card input(Card active, CardStack cardStack) {
+    public Card playCard(Card active, CardStack cardStack) {
         for(Card card: cardStack.getCardList()) {
             if(active.isCompatibleWith(card)) {
                 return card;
@@ -27,7 +27,7 @@ public class NPCPlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public CardColor inputColor() {
+    public CardColor selectColor() {
         return CardColor.values()[random.nextInt(CardColor.values().length)];
     }
 

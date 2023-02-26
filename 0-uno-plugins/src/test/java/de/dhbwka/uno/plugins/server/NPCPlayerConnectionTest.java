@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.server;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardColor;
@@ -22,7 +22,7 @@ class NPCPlayerConnectionTest {
 
         NPCPlayerConnection con = new NPCPlayerConnection("Bob der Baumeister");
 
-        Card c = con.input(activeCard, cardStack);
+        Card c = con.playCard(activeCard, cardStack);
 
         assertNull(c);
     }

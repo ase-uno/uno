@@ -2,6 +2,9 @@ package de.dhbwka.uno.domain;
 
 import java.util.Objects;
 
+/**
+ * Repräsentiert einen Spieler bevor das Spiel begonnen hat
+ */
 public class SimplePlayer {
     private final String name;
 

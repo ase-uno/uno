@@ -1,11 +1,10 @@
-package de.dhbwka.uno.adapters.client;
+package de.dhbwka.uno.plugins.client;
 
 import de.dhbwka.uno.adapters.json.*;
 import de.dhbwka.uno.adapters.mapper.CardMapper;
 import de.dhbwka.uno.adapters.mapper.CardStackMapper;
 import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
 import de.dhbwka.uno.adapters.mapper.PlayerMapper;
-import de.dhbwka.uno.application.config.ConnectionConfig;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.ConsoleOut;
@@ -24,22 +23,23 @@ public class SocketConnection {
 
     public SocketConnection(
             String ip,
+            int port,
             String name,
             PlayerConnection playerConnection,
             ConsoleOut console) throws IOException {
         this.playerConnection = playerConnection;
         this.console = console;
 
-        connect(ip, name);
+        connect(ip, port, name);
 
-        while(socket.isConnected()) {
+        while (socket.isConnected()) {
             waitForMessage();
         }
         socket.close();
     }
 
-    private void connect(String ip, String name) throws IOException {
-        socket = new Socket(ip, ConnectionConfig.SOCKET_PORT);
+    private void connect(String ip, int port, String name) throws IOException {
+        socket = new Socket(ip, port);
         returnResponseToServer(new JsonString(name));
         console.println(ConsoleColor.GREEN, "Connected");
     }
@@ -66,11 +66,11 @@ public class SocketConnection {
                 Card active = CardMapper.cardFromJson(jsonObject1.get("active"));
                 CardStack cardStack = CardStackMapper.cardStackFromJson(jsonObject1.get("cardStack"));
 
-                Card card = playerConnection.input(active, cardStack);
+                Card card = playerConnection.playCard(active, cardStack);
                 returnResponseToServer(CardMapper.cardToJson(card));
             }
             case "inputColor" -> {
-                CardColor color = playerConnection.inputColor();
+                CardColor color = playerConnection.selectColor();
                 returnResponseToServer(CardMapper.cardColorToJson(color));
             }
             case "broadcastWinner" -> {

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Game {
-
     private final List<PlayerWithConnection> players;
     private final CardStack cardStack;
 
@@ -17,7 +16,6 @@ public class Game {
     private int activeIndex = 0;
     private int direction = 1;
     private final HighScoreStorageRepository highScoreStorageRepository;
-
 
     public Game(
             List<PlayerWithConnection> players,
@@ -32,7 +30,7 @@ public class Game {
 
     public void start() {
         while(!isGameFinished()) {
-            broadcastActivePlayer(getActivePlayer().getPlayer());
+            broadcastActivePlayer(getActivePlayer().player());
             next();
         }
         Player winner = getWinner();
@@ -43,25 +41,25 @@ public class Game {
 
     private void broadcastHighScore() {
         List<SimplePlayer> simplePlayers = players.stream()
-                .map(pwc -> (SimplePlayer) pwc.getPlayer())
+                .map(pwc -> (SimplePlayer) pwc.player())
                 .toList();
         HighScore highScore = highScoreStorageRepository.getHighScore()
                 .filter(simplePlayers);
         for(PlayerWithConnection p : players) {
-            p.getPlayerConnection().broadcastHighScore(highScore);
+            p.playerConnection().broadcastHighScore(highScore);
         }
     }
 
     private void broadcastActivePlayer(Player activePlayer) {
         for(PlayerWithConnection p : players) {
-            p.getPlayerConnection().broadcastActivePlayer(activePlayer);
+            p.playerConnection().broadcastActivePlayer(activePlayer);
         }
     }
 
     public void next() {
         Card card;
         do {
-            card = getActivePlayer().input(activeCard);
+            card = getActivePlayer().placeCard(activeCard);
         } while(card != null && !activeCard.isCompatibleWith(card));
 
         int nextPlayerOffset = 1;
@@ -71,7 +69,7 @@ public class Game {
             if(card.hasAction()) {
 
                 for (int i = 0; i < card.getAction().getDraw(); i++) {
-                    getNextPlayer().getPlayer().getCardStack().add(cardStack.consumeFirst());
+                    getNextPlayer().player().getCardStack().add(cardStack.consumeFirst());
                 }
 
                 if (card.getAction().getAction() == Action.BLOCK) {
@@ -79,15 +77,15 @@ public class Game {
                 } else if (card.getAction().getAction() == Action.CHANGE_DIRECTION) {
                     changeDirection();
                 } else if (card.getAction().getAction() == Action.CHANGE_COLOR) {
-                    CardColor color = getActivePlayer().getPlayerConnection().inputColor();
+                    CardColor color = getActivePlayer().playerConnection().selectColor();
                     nextNewCard = new Card(color);
                 }
             }
-            getActivePlayer().getPlayer().getCardStack().remove(card);
+            getActivePlayer().player().getCardStack().remove(card);
             activeCard = nextNewCard;
             cardStack.add(card);
         } else {
-            getActivePlayer().getPlayer().getCardStack().add(cardStack.consumeFirst());
+            getActivePlayer().player().getCardStack().add(cardStack.consumeFirst());
         }
 
         activeIndex = getNextPlayerIndex(nextPlayerOffset);
@@ -98,7 +96,7 @@ public class Game {
             return true;
         }
         for(PlayerWithConnection player : players) {
-            if(player.getPlayer().getCardStack().isFinished()) {
+            if(player.player().getCardStack().isFinished()) {
                 return true;
             }
         }
@@ -123,7 +121,7 @@ public class Game {
 
     private Player getWinner() {
         Optional<Player> optionalPlayer = players.stream()
-                .map(PlayerWithConnection::getPlayer)
+                .map(PlayerWithConnection::player)
                 .filter(p -> p.getCardStack().isFinished())
                 .findFirst();
         return optionalPlayer.orElse(null);
@@ -131,7 +129,7 @@ public class Game {
 
     private void broadcastWinner(Player winner) {
         for(PlayerWithConnection player : players) {
-            player.getPlayerConnection().broadcastWinner(winner);
+            player.playerConnection().broadcastWinner(winner);
         }
     }
 

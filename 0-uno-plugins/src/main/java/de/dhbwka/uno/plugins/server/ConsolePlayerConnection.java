@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.server;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
@@ -20,7 +20,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public Card input(Card active, CardStack cardStack) {
+    public Card playCard(Card active, CardStack cardStack) {
 
         console.println("Input card: ");
         console.println();
@@ -108,7 +108,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
     }
 
     @Override
-    public CardColor inputColor() {
+    public CardColor selectColor() {
         console.println("Input card");
 
         for(int i = 0; i < CardColor.values().length; i++) {

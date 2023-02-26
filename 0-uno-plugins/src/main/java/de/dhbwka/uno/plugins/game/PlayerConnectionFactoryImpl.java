@@ -1,11 +1,9 @@
-package de.dhbwka.uno.adapters.game;
+package de.dhbwka.uno.plugins.game;
 
-import de.dhbwka.uno.adapters.server.ConsolePlayerConnection;
-import de.dhbwka.uno.adapters.server.SocketPlayerConnection;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.game.PlayerConnectionFactory;
 import de.dhbwka.uno.application.io.ConsoleOut;
-import de.dhbwka.uno.application.model.SocketNameCombination;
+import de.dhbwka.uno.plugins.server.ConsolePlayerConnection;
 
 public class PlayerConnectionFactoryImpl implements PlayerConnectionFactory {
 
@@ -20,8 +18,4 @@ public class PlayerConnectionFactoryImpl implements PlayerConnectionFactory {
         return new ConsolePlayerConnection(console);
     }
 
-    @Override
-    public PlayerConnection remoteConnection(SocketNameCombination socketNameCombination) {
-        return new SocketPlayerConnection(socketNameCombination.getSocket());
-    }
 }
