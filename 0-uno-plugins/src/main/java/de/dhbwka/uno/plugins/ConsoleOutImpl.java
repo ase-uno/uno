@@ -1,9 +1,9 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.plugins;
 
 import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.ConsoleOut;
 
-public class ConsoleAdapter implements ConsoleOut {
+public class ConsoleOutImpl implements ConsoleOut {
 
     @Override
     public void print(ConsoleColor color, String message) {

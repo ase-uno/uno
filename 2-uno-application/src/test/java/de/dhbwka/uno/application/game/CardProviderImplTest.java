@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.domain.Card;
 import org.junit.jupiter.api.Test;
@@ -7,11 +7,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CardGeneratorTest {
+class CardProviderImplTest {
 
     @Test
     void listAllCards() {
-        CardGenerator generator = new CardGenerator();
+        CardProviderImpl generator = new CardProviderImpl();
 
         List<Card> cards = generator.listAllCards();
 

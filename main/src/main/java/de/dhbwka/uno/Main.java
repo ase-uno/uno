@@ -3,10 +3,10 @@ package de.dhbwka.uno;
 import de.dhbwka.uno.adapters.client.SocketConnectionInitializerImpl;
 import de.dhbwka.uno.adapters.game.PlayerConnectionFactoryImpl;
 import de.dhbwka.uno.adapters.model.SocketNameCombinationFactoryImpl;
-import de.dhbwka.uno.adapters.persistence.FileStorage;
+import de.dhbwka.uno.plugins.FileStorage;
 import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
-import de.dhbwka.uno.adapters.plugins.CardGenerator;
-import de.dhbwka.uno.adapters.plugins.ConsoleAdapter;
+import de.dhbwka.uno.application.game.CardProviderImpl;
+import de.dhbwka.uno.plugins.ConsoleOutImpl;
 import de.dhbwka.uno.application.client.Client;
 import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.ConsoleOut;
@@ -17,7 +17,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final ConsoleOut console = new ConsoleAdapter();
+    private static final ConsoleOut console = new ConsoleOutImpl();
 
     public static void main(String[] args) throws IOException {
         console.println(ConsoleColor.YELLOW, "Willkommen");
@@ -72,7 +72,7 @@ public class Main {
         if(mode == 0) {
             new Server(name,
                     console,
-                    new CardGenerator(),
+                    new CardProviderImpl(),
                     new HighScoreStorage(new FileStorage()),
                     new PlayerConnectionFactoryImpl(console),
                     new SocketNameCombinationFactoryImpl());

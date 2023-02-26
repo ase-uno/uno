@@ -19,7 +19,7 @@ public class TestCardProvider implements CardProvider {
     public List<Card> listAllCards() {
         List<Card> list = new ArrayList<>();
 
-        for(int i = 0; i<amountCards; i++) {
+        for (int i = 0; i < amountCards; i++) {
             list.add(cardToProvide);
         }
 

@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.adapters.server;
 
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.domain.*;

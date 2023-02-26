@@ -1,7 +1,7 @@
 package de.dhbwka.uno.adapters.game;
 
-import de.dhbwka.uno.adapters.plugins.ConsolePlayerConnection;
-import de.dhbwka.uno.adapters.plugins.SocketPlayerConnection;
+import de.dhbwka.uno.adapters.server.ConsolePlayerConnection;
+import de.dhbwka.uno.adapters.server.SocketPlayerConnection;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.game.PlayerConnectionFactory;
 import de.dhbwka.uno.application.io.ConsoleOut;
