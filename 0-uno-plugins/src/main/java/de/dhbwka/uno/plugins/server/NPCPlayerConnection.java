@@ -18,8 +18,8 @@ public class NPCPlayerConnection implements PlayerConnection {
 
     @Override
     public Card playCard(Card active, CardStack cardStack) {
-        for(Card card: cardStack.getCardList()) {
-            if(active.isCompatibleWith(card)) {
+        for (Card card : cardStack.getCardList()) {
+            if (active.isCompatibleWith(card)) {
                 return card;
             }
         }

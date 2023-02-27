@@ -1,15 +1,15 @@
 package de.dhbwka.uno.domain;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CardNumberTest {
 
     @Test
     public void setNumberSuccess() {
-        for(int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             CardNumber number = new CardNumber(i);
             assertEquals(number.getValue(), i);
         }

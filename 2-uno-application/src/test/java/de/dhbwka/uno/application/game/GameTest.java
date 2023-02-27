@@ -1,7 +1,7 @@
 package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.application.persistence.InMemoryHighscoreRepository;
+import de.dhbwka.uno.application.persistence.InMemoryHighScoreRepository;
 import de.dhbwka.uno.domain.*;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ class GameTest {
 
     @Test
     void firstPlayerWins() {
-        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighscoreRepository();
+        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighScoreRepository();
         Game game = new TestGameBuilder()
                 .oneCard()
                 .highScoreStorageRepository(highScoreStorageRepository)
@@ -92,7 +92,7 @@ class GameTest {
     @Test
     void noUserGetsAWinWhenNoCardsAreLeftOnStack() {
 
-        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighscoreRepository();
+        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighScoreRepository();
         Game game = new TestGameBuilder()
                 .noCards()
                 .highScoreStorageRepository(highScoreStorageRepository)
@@ -133,7 +133,7 @@ class GameTest {
     void userTwoWinsWhenUserOneHasNoCompatibleCards() {
 
         CardStack cardStack = new CardStack(List.of(new Card(CardColor.BLUE, new CardNumber(3))));
-        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighscoreRepository();
+        HighScoreStorageRepository highScoreStorageRepository = new InMemoryHighScoreRepository();
 
         Game game = new TestGameBuilder()
                 .oneCard()

@@ -6,14 +6,14 @@ import de.dhbwka.uno.domain.SimplePlayer;
 
 import java.util.Map;
 
-public class InMemoryHighscoreRepository implements HighScoreStorageRepository {
+public class InMemoryHighScoreRepository implements HighScoreStorageRepository {
 
     private final HighScore highScore = new HighScore();
 
     @Override
     public void addWin(SimplePlayer player) {
         Map<SimplePlayer, Integer> wins = highScore.getElements();
-        if(!wins.containsKey(player)) {
+        if (!wins.containsKey(player)) {
             wins.put(player, 0);
         }
 

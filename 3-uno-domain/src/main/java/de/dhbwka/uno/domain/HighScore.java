@@ -22,7 +22,7 @@ public class HighScore {
     public HighScore filter(List<SimplePlayer> onlyInclude) {
         Map<SimplePlayer, Integer> newMap = new HashMap<>();
         elements.forEach((k, v) -> {
-            if(onlyInclude.contains(k)) newMap.put(k, v);
+            if (onlyInclude.contains(k)) newMap.put(k, v);
         });
 
         this.elements = newMap;

@@ -1,12 +1,12 @@
 package de.dhbwka.uno.adapters.mapper;
 
-import de.dhbwka.uno.domain.SimplePlayer;
 import de.dhbwka.uno.adapters.json.JsonElement;
 import de.dhbwka.uno.adapters.json.JsonObject;
 import de.dhbwka.uno.adapters.json.JsonString;
+import de.dhbwka.uno.domain.SimplePlayer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerMapperTest {
 

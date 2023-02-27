@@ -1,17 +1,18 @@
 package de.dhbwka.uno.adapters.mapper;
 
-import de.dhbwka.uno.domain.HighScore;
-import de.dhbwka.uno.domain.SimplePlayer;
 import de.dhbwka.uno.adapters.json.JsonElement;
 import de.dhbwka.uno.adapters.json.JsonNull;
 import de.dhbwka.uno.adapters.json.JsonNumber;
 import de.dhbwka.uno.adapters.json.JsonObject;
+import de.dhbwka.uno.domain.HighScore;
+import de.dhbwka.uno.domain.SimplePlayer;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HighScoreMapperTest {
 

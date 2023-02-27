@@ -2,17 +2,15 @@ package de.dhbwka.uno.application.server;
 
 import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.application.game.ConnectionInstance;
-import de.dhbwka.uno.application.game.Game;
 import de.dhbwka.uno.application.io.Console;
-import de.dhbwka.uno.application.model.PlayerWithConnection;
+import de.dhbwka.uno.application.game.GameInitializer;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardStack;
 import de.dhbwka.uno.domain.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Server extends ConnectionInstance {
@@ -20,16 +18,10 @@ public class Server extends ConnectionInstance {
     private final SimplePlayerWithConnection localPlayer;
 
     private final Console console;
-    private final CardProvider cardProvider;
 
     private boolean waitingForPlayers = true;
 
     private final List<SimplePlayerWithConnection> players = new ArrayList<>();
-    private List<PlayerWithConnection> players2 = new ArrayList<>();
-    private List<Card> cards;
-    private Game game;
-
-    private final HighScoreStorageRepository highScoreStorageRepository;
 
     public Server(SimplePlayerWithConnection localPlayer,
                   ConnectionServer connectionServer,
@@ -41,54 +33,21 @@ public class Server extends ConnectionInstance {
         this.localPlayer = localPlayer;
         this.connectionServer = connectionServer;
         this.console = console;
-        this.cardProvider = cardProvider;
-        this.highScoreStorageRepository = highScoreStorageRepository;
 
         startServer();
 
-        initCards();
-        initPlayers();
-        initGame();
-
-        game.start();
+        startGame(cardProvider, highScoreStorageRepository);
 
         closeServer();
     }
 
-    private void initCards() {
-        cards = cardProvider.listAllCards();
-        Collections.shuffle(cards);
-    }
+    private void startGame(CardProvider cardProvider, HighScoreStorageRepository highScoreStorageRepository) {
+        this.players.add(new SimplePlayerWithConnection(
+                new Player(getLocalName(), new CardStack(new ArrayList<>())),
+                localPlayer.playerConnection()
+        ));
 
-    private CardStack getPlayerCards() {
-        List<Card> playerCards = cards.subList(0, 7);
-        cards = cards.subList(7, cards.size());
-        return new CardStack(playerCards);
-    }
-
-    private void initPlayers() {
-        players2 = new ArrayList<>();
-
-        players2.add(new PlayerWithConnection(
-                new Player(getLocalName(), getPlayerCards()),
-                localPlayer.playerConnection()));
-
-        for (SimplePlayerWithConnection spwc : this.players) {
-            Player p = new Player(spwc.simplePlayer().getName(), getPlayerCards());
-            PlayerWithConnection pwc = new PlayerWithConnection(p, spwc.playerConnection());
-            players2.add(pwc);
-        }
-    }
-
-    private void initGame() {
-        Card activeCard;
-        int i = -1;
-        do {
-            activeCard = cards.get(++i);
-        } while (activeCard.hasAction());
-        cards.remove(i);
-
-        game = new Game(players2, new CardStack(cards), activeCard, highScoreStorageRepository);
+        GameInitializer.startNewGame(cardProvider, players, highScoreStorageRepository);
     }
 
     private void startServer() {

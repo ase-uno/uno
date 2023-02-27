@@ -2,7 +2,7 @@ package de.dhbwka.uno.application.game;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ConnectionInstanceTest {
 

@@ -48,7 +48,7 @@ public class SocketPlayerConnection implements PlayerConnection {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             String response = dataInputStream.readUTF();
             JsonElement jsonElement = new JsonConverter().fromJsonString(response);
-           return CardMapper.cardFromJson(jsonElement);
+            return CardMapper.cardFromJson(jsonElement);
         } catch (Exception e) {
             return null;
         }

@@ -34,6 +34,6 @@ public class ConsoleImpl implements Console {
     }
 
     private String colorChange(int color) {
-        return (char)27 + "[" + color + "m";
+        return (char) 27 + "[" + color + "m";
     }
 }

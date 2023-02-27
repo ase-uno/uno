@@ -8,15 +8,14 @@ public class MockedPlayerConnection implements PlayerConnection {
     private int inputColorCalled = 0;
     private int broadcastWinnerCalled = 0;
     private int broadcastActivePlayerCalled = 0;
-    private int broadcastHighscoreCalled = 0;
-
+    private int broadcastHighScoreCalled = 0;
 
     @Override
     public Card playCard(Card active, CardStack cardStack) {
         inputCalled++;
 
-        for(Card card: cardStack.getCardList()) {
-            if(card.isCompatibleWith(active)) return card;
+        for (Card card : cardStack.getCardList()) {
+            if (card.isCompatibleWith(active)) return card;
         }
         return null;
     }
@@ -39,7 +38,7 @@ public class MockedPlayerConnection implements PlayerConnection {
 
     @Override
     public void broadcastHighScore(HighScore highScore) {
-        broadcastHighscoreCalled++;
+        broadcastHighScoreCalled++;
     }
 
     public int getInputCalled() {
@@ -58,7 +57,7 @@ public class MockedPlayerConnection implements PlayerConnection {
         return broadcastActivePlayerCalled;
     }
 
-    public int getBroadcastHighscoreCalled() {
-        return broadcastHighscoreCalled;
+    public int getBroadcastHighScoreCalled() {
+        return broadcastHighScoreCalled;
     }
 }
