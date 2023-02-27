@@ -4,8 +4,8 @@ import de.dhbwka.uno.adapters.json.JsonElement;
 
 public interface AbstractStorageRepository {
 
-    JsonElement getFile(String fileName);
+    JsonElement load(String identifier);
 
-    void storeFile(String fileName, JsonElement content);
+    void save(String identifier, JsonElement content);
 
 }

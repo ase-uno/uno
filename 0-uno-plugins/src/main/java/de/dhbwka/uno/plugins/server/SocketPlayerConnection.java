@@ -29,7 +29,6 @@ public class SocketPlayerConnection implements PlayerConnection {
 
     @Override
     public Card playCard(Card active, CardStack cardStack) {
-
         HashMap<String, JsonElement> data = new HashMap<>();
         data.put("active", CardMapper.cardToJson(active));
         data.put("cardStack", CardStackMapper.cardStackToJson(cardStack));
@@ -86,7 +85,6 @@ public class SocketPlayerConnection implements PlayerConnection {
 
     @Override
     public void broadcastHighScore(HighScore highScore) {
-
         HashMap<String, JsonElement> data = new HashMap<>();
         data.put("highScore", HighScoreMapper.highScoreToJson(highScore));
 
@@ -117,4 +115,5 @@ public class SocketPlayerConnection implements PlayerConnection {
             //ignore error for this message
         }
     }
+    
 }

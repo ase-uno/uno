@@ -14,12 +14,13 @@ public class CardStackMapper {
 
     private static final String CARDSTACK_CARDLIST = "cardList";
 
-    private CardStackMapper() {}
+    private CardStackMapper() {
+    }
 
     public static JsonElement cardStackToJson(CardStack cardStack) {
         HashMap<String, JsonElement> props = new HashMap<>();
 
-        List<JsonElement> cards = cardStack.getCardList()
+        List<JsonElement> cards = cardStack.cardList()
                 .stream()
                 .map(CardMapper::cardToJson)
                 .toList();
@@ -33,11 +34,12 @@ public class CardStackMapper {
         JsonObject jsonObject = (JsonObject) jsonElement;
         JsonArray jsonArray = (JsonArray) jsonObject.get(CARDSTACK_CARDLIST);
 
-        List<Card> cardList = jsonArray.getElements()
+        List<Card> cardList = jsonArray.elements()
                 .stream()
                 .map(CardMapper::cardFromJson)
                 .filter(Objects::nonNull)
                 .toList();
+
         return new CardStack(cardList);
     }
 

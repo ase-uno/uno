@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 public class JsonObject implements JsonElement {
 
-
     private final Map<String, JsonElement> elements;
 
     public JsonObject() {
@@ -28,6 +27,7 @@ public class JsonObject implements JsonElement {
     public void set(String key, JsonElement jsonElement) {
         elements.put(key, jsonElement);
     }
+
     @Override
     public String toJsonString() {
         return "{" +
@@ -37,4 +37,5 @@ public class JsonObject implements JsonElement {
                         .collect(Collectors.joining(","))
                 + "}";
     }
+
 }

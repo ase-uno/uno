@@ -1,7 +1,6 @@
 package de.dhbwka.uno.application.io;
 
 public enum ConsoleColor {
-
     BLACK(30),
     RED(31),
     GREEN(32),
@@ -13,6 +12,7 @@ public enum ConsoleColor {
     RESET(39);
 
     private final int colorNumber;
+
     ConsoleColor(int colorNumber) {
         this.colorNumber = colorNumber;
     }
@@ -20,4 +20,5 @@ public enum ConsoleColor {
     public int getColorNumber() {
         return colorNumber;
     }
+
 }

@@ -1,7 +1,7 @@
 package de.dhbwka.uno.plugins;
 
-import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.io.Console;
+import de.dhbwka.uno.application.io.ConsoleColor;
 
 import java.util.Scanner;
 
@@ -36,4 +36,5 @@ public class ConsoleImpl implements Console {
     private String colorChange(int color) {
         return (char) 27 + "[" + color + "m";
     }
+
 }

@@ -79,7 +79,7 @@ public class TestGameBuilder {
     public Game build() {
         CardStack mainCardStack = cardStackOverwrite != null ? cardStackOverwrite : cardStack(cardStackSize);
         CardStack playerCardStack = cardStack(playerCardStackSize);
-        Card activeCard = mainCardStack.getCardList().isEmpty() ? null : mainCardStack.getCardList().get(0);
+        Card activeCard = mainCardStack.cardList().isEmpty() ? null : mainCardStack.cardList().get(0);
 
         return new Game(players(playerCardStack), mainCardStack, activeCard, highScoreStorageRepository);
     }

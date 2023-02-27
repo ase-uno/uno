@@ -7,7 +7,7 @@ import de.dhbwka.uno.domain.Player;
 /**
  * Repräsentiert einen mit dem Server verbundenen Spieler nachdem das Spiel begonnen hat
  *
- * @param player Spieler
+ * @param player           Spieler
  * @param playerConnection Verbindung zu dem Spieler
  */
 public record PlayerWithConnection(Player player, PlayerConnection playerConnection) {
@@ -19,4 +19,5 @@ public record PlayerWithConnection(Player player, PlayerConnection playerConnect
     public Card placeCard(Card activeCard) {
         return this.playerConnection.playCard(activeCard, this.player.getCardStack());
     }
+
 }

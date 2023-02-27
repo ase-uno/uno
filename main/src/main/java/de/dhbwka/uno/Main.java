@@ -9,11 +9,10 @@ import de.dhbwka.uno.application.io.ConsoleColor;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.Server;
 import de.dhbwka.uno.domain.SimplePlayer;
-import de.dhbwka.uno.plugins.ConnectionServerSocket;
 import de.dhbwka.uno.plugins.ConsoleImpl;
 import de.dhbwka.uno.plugins.FileStorage;
 import de.dhbwka.uno.plugins.client.ConnectionInitializerImpl;
-import de.dhbwka.uno.plugins.game.PlayerConnectionFactoryImpl;
+import de.dhbwka.uno.plugins.server.ConnectionServerSocket;
 import de.dhbwka.uno.plugins.server.ConsolePlayerConnection;
 
 public class Main {
@@ -77,7 +76,7 @@ public class Main {
                     new HighScoreStorage(new FileStorage()));
         } else {
             new Client(name, console,
-                    new PlayerConnectionFactoryImpl(console),
+                    new ConsolePlayerConnection(console),
                     new ConnectionInitializerImpl(PORT));
         }
     }

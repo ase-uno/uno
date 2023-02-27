@@ -7,7 +7,6 @@ import java.util.Random;
 
 public class NPCPlayerConnection implements PlayerConnection {
 
-
     private final String name;
 
     public NPCPlayerConnection(String name) {
@@ -18,7 +17,7 @@ public class NPCPlayerConnection implements PlayerConnection {
 
     @Override
     public Card playCard(Card active, CardStack cardStack) {
-        for (Card card : cardStack.getCardList()) {
+        for (Card card : cardStack.cardList()) {
             if (active.isCompatibleWith(card)) {
                 return card;
             }
@@ -45,4 +44,5 @@ public class NPCPlayerConnection implements PlayerConnection {
     public void broadcastHighScore(HighScore highScore) {
         //only for testing, so no broadcast ist needed
     }
+
 }

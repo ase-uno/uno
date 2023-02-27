@@ -6,7 +6,6 @@ package de.dhbwka.uno.domain;
 public class Player extends SimplePlayer {
     private final CardStack cardStack;
 
-
     public Player(String name, CardStack cardStack) {
         super(name);
         this.cardStack = cardStack;

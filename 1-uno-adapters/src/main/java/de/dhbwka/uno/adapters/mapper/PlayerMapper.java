@@ -24,7 +24,7 @@ public class PlayerMapper {
 
     public static SimplePlayer playerDTOFromJson(JsonElement jsonElement) {
         JsonObject jsonObject = (JsonObject) jsonElement;
-        String name = ((JsonString) jsonObject.get(PLAYERDTO_NAME)).getValue();
+        String name = ((JsonString) jsonObject.get(PLAYERDTO_NAME)).value();
 
         return new SimplePlayer(name);
     }

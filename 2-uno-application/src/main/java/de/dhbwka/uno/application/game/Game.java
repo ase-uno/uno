@@ -1,6 +1,5 @@
 package de.dhbwka.uno.application.game;
 
-
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.*;
@@ -68,15 +67,15 @@ public class Game {
         if(card != null) {
             if(card.hasAction()) {
 
-                for (int i = 0; i < card.getAction().getDraw(); i++) {
+                for (int i = 0; i < card.getAction().draw(); i++) {
                     getNextPlayer().player().getCardStack().add(cardStack.consumeFirst());
                 }
 
-                if (card.getAction().getAction() == Action.BLOCK) {
+                if (card.getAction().action() == Action.BLOCK) {
                     nextPlayerOffset = 2;
-                } else if (card.getAction().getAction() == Action.CHANGE_DIRECTION) {
+                } else if (card.getAction().action() == Action.CHANGE_DIRECTION) {
                     changeDirection();
-                } else if (card.getAction().getAction() == Action.CHANGE_COLOR) {
+                } else if (card.getAction().action() == Action.CHANGE_COLOR) {
                     CardColor color = getActivePlayer().playerConnection().selectColor();
                     nextNewCard = new Card(color);
                 }

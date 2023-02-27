@@ -3,7 +3,6 @@ package de.dhbwka.uno.application.game;
 import de.dhbwka.uno.domain.*;
 
 public class MockedPlayerConnection implements PlayerConnection {
-
     private int inputCalled = 0;
     private int inputColorCalled = 0;
     private int broadcastWinnerCalled = 0;
@@ -14,7 +13,7 @@ public class MockedPlayerConnection implements PlayerConnection {
     public Card playCard(Card active, CardStack cardStack) {
         inputCalled++;
 
-        for (Card card : cardStack.getCardList()) {
+        for (Card card : cardStack.cardList()) {
             if (card.isCompatibleWith(active)) return card;
         }
         return null;
@@ -60,4 +59,5 @@ public class MockedPlayerConnection implements PlayerConnection {
     public int getBroadcastHighScoreCalled() {
         return broadcastHighScoreCalled;
     }
+
 }

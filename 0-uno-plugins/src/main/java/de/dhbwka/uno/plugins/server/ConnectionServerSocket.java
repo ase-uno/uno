@@ -1,4 +1,4 @@
-package de.dhbwka.uno.plugins;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.adapters.json.JsonConverter;
 import de.dhbwka.uno.adapters.json.JsonElement;
@@ -7,7 +7,6 @@ import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.ConnectionAcceptDecider;
 import de.dhbwka.uno.application.server.ConnectionServer;
 import de.dhbwka.uno.domain.SimplePlayer;
-import de.dhbwka.uno.plugins.server.SocketPlayerConnection;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -90,7 +89,7 @@ public class ConnectionServerSocket implements ConnectionServer {
         try {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             JsonElement jsonElement = new JsonConverter().fromJsonString(dataInputStream.readUTF());
-            String remoteName = ((JsonString) jsonElement).getValue();
+            String remoteName = ((JsonString) jsonElement).value();
             return new SimplePlayer(remoteName);
         } catch (Exception e) {
             return null;

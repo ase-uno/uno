@@ -1,23 +1,6 @@
 package de.dhbwka.uno.domain;
 
-import java.util.Objects;
-
-public class CardAction {
-    private final Action action;
-    private final int draw;
-
-    public CardAction(Action action, int draw) {
-        this.action = action;
-        this.draw = draw;
-    }
-
-    public Action getAction() {
-        return action;
-    }
-
-    public int getDraw() {
-        return draw;
-    }
+public record CardAction(Action action, int draw) {
 
     @Override
     public String toString() {
@@ -33,11 +16,6 @@ public class CardAction {
         if (o == null || getClass() != o.getClass()) return false;
         CardAction that = (CardAction) o;
         return draw == that.draw && action == that.action;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(action, draw);
     }
 
 }

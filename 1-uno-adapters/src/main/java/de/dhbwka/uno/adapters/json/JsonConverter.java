@@ -10,7 +10,6 @@ public class JsonConverter {
 
     private int index = 0;
 
-
     public JsonElement fromJsonString(String json) throws JsonConvertException {
 
         String firstCharacter = json.split("")[index];
@@ -27,36 +26,46 @@ public class JsonConverter {
 
     private JsonArray parseArray(String json) throws JsonConvertException {
         List<JsonElement> list = new ArrayList<>();
+
         index++;
-        while(!json.split("")[index].equals("]")) {
+
+        while (!json.split("")[index].equals("]")) {
             list.add(fromJsonString(json));
-            if(!json.split("")[index].equals(",")) {
+            if (!json.split("")[index].equals(",")) {
                 break;
             }
             index++;
         }
+
         index++;
+
         return new JsonArray(list);
     }
 
     private JsonObject parseObject(String json) throws JsonConvertException {
-
         HashMap<String, JsonElement> list = new HashMap<>();
+
         index++;
-        while(!json.split("")[index].equals("}")) {
+
+        while (!json.split("")[index].equals("}")) {
             JsonString key = parseString(json);
-            if(!json.split("")[index].equals(":")) {
+            if (!json.split("")[index].equals(":")) {
                 throw new JsonConvertException(index);
             }
+
             index++;
+
             JsonElement value = fromJsonString(json);
-            list.put(key.getValue(), value);
-            if(!json.split("")[index].equals(",")) {
+            list.put(key.value(), value);
+            if (!json.split("")[index].equals(",")) {
                 break;
             }
+
             index++;
         }
+
         index++;
+
         return new JsonObject(list);
     }
 
@@ -65,8 +74,8 @@ public class JsonConverter {
         String substring = json.substring(index);
         Pattern pattern = Pattern.compile("(\\d*).*");
         Matcher matcher = pattern.matcher(substring);
-        if(!matcher.matches()) {
-            throw  new JsonConvertException(index);
+        if (!matcher.matches()) {
+            throw new JsonConvertException(index);
         }
 
         String matched = matcher.group(1);
@@ -92,7 +101,7 @@ public class JsonConverter {
         String substring = json.substring(index);
         Pattern pattern = Pattern.compile("\"(([^\"\\\\]|\\\\\"|\\\\\\\\)*)\".*");
         Matcher matcher = pattern.matcher(substring);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             throw new JsonConvertException(index);
         }
 
@@ -104,7 +113,7 @@ public class JsonConverter {
 
     private JsonNull parseNull(String json) throws JsonConvertException {
         String substring = json.substring(index);
-        if(substring.startsWith("null")) {
+        if (substring.startsWith("null")) {
             index += 4;
             return new JsonNull();
         } else {

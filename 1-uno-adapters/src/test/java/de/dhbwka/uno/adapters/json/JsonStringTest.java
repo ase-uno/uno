@@ -12,7 +12,7 @@ class JsonStringTest {
 
         JsonString string = new JsonString(s);
 
-        assertEquals(string.getValue(), s);
+        assertEquals(string.value(), s);
     }
 
     @Test

@@ -20,15 +20,14 @@ public class ConsolePlayerConnection implements PlayerConnection {
 
     @Override
     public Card playCard(Card active, CardStack cardStack) {
-
         console.println("Input card: ");
         console.println();
         console.println("Active: ");
         printCard(active);
         console.println();
 
-        for (int i = 0; i < cardStack.getCardList().size(); i++) {
-            console.println(i + ") " + cardToString(cardStack.getCardList().get(i)));
+        for (int i = 0; i < cardStack.cardList().size(); i++) {
+            console.println(i + ") " + cardToString(cardStack.cardList().get(i)));
         }
 
         Card card = requestCardSelection(cardStack);
@@ -37,10 +36,10 @@ public class ConsolePlayerConnection implements PlayerConnection {
     }
 
     private Card requestCardSelection(CardStack cardStack) {
-        int input = requestUserInputSelection(-1, cardStack.getCardList().size());
+        int input = requestUserInputSelection(-1, cardStack.cardList().size());
 
         if (input == -1) return null;
-        return cardStack.getCardList().get(input);
+        return cardStack.cardList().get(input);
     }
 
     private String cardToString(Card card) {
@@ -74,20 +73,19 @@ public class ConsolePlayerConnection implements PlayerConnection {
     }
 
     private String getFilePathForCard(Card card) {
-
         String path = "";
 
         if (card.getNumber() != null) {
             path += "numbers/" + card.getNumber().getValue() + ".txt";
         } else if (card.hasAction()) {
             path += "actions/";
-            String actionName = card.getAction().getAction().name().toLowerCase();
+            String actionName = card.getAction().action().name().toLowerCase();
             path += actionName;
-            if (card.getAction().getAction() == Action.DRAW) {
-                path += "_" + card.getAction().getDraw();
+            if (card.getAction().action() == Action.DRAW) {
+                path += "_" + card.getAction().draw();
             }
-            if (card.getAction().getDraw() > 0 && card.getAction().getAction() != Action.DRAW) {
-                path += "_draw_" + card.getAction().getDraw();
+            if (card.getAction().draw() > 0 && card.getAction().action() != Action.DRAW) {
+                path += "_draw_" + card.getAction().draw();
             }
             path += ".txt";
         } else {
@@ -153,4 +151,5 @@ public class ConsolePlayerConnection implements PlayerConnection {
         } while (input < min || input >= maxExcluded);
         return input;
     }
+
 }

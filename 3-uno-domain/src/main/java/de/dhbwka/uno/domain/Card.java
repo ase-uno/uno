@@ -48,8 +48,8 @@ public class Card {
     public boolean isCompatibleWith(Card card) {
         boolean colorsEqual = color != null && getColor() == card.getColor();
         boolean numbersEqual = number != null && getNumber().equals(card.getNumber());
-        boolean hasAction = action != null && action.getAction() == Action.CHANGE_COLOR
-                || card.action != null && card.action.getAction() == Action.CHANGE_COLOR;
+        boolean hasAction = action != null && action.action() == Action.CHANGE_COLOR
+                || card.action != null && card.action.action() == Action.CHANGE_COLOR;
         boolean actionsEqual = action != null && getAction().equals(card.getAction());
 
         return colorsEqual || numbersEqual || hasAction || actionsEqual;

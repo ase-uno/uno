@@ -58,7 +58,7 @@ public class SocketConnection {
     private void parseMessage(String message) throws JsonConvertException {
         JsonObject jsonObject = (JsonObject) new JsonConverter().fromJsonString(message);
 
-        String action = ((JsonString) jsonObject.get("action")).getValue();
+        String action = ((JsonString) jsonObject.get("action")).value();
         JsonElement element = jsonObject.get("data");
         switch (action) {
             case "input" -> {

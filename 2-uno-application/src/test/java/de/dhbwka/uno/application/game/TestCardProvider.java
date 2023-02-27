@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestCardProvider implements CardProvider {
-
     private final int amountCards;
     private final Card cardToProvide;
 
@@ -25,4 +24,5 @@ public class TestCardProvider implements CardProvider {
 
         return list;
     }
+
 }

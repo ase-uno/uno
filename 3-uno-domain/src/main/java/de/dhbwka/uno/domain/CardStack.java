@@ -3,15 +3,10 @@ package de.dhbwka.uno.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardStack {
-    private final List<Card> cardList;
-
+public record CardStack(List<Card> cardList) {
+    
     public CardStack(List<Card> cardList) {
         this.cardList = new ArrayList<>(cardList);
-    }
-
-    public List<Card> getCardList() {
-        return cardList;
     }
 
     public void remove(Card card) {

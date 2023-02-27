@@ -15,12 +15,12 @@ public class CardStackTest {
 
         CardStack stack = new CardStack(cards);
 
-        assertEquals(stack.getCardList().size(), 0);
+        assertEquals(stack.cardList().size(), 0);
 
         Card card = new Card(CardColor.BLUE, new CardNumber(1));
         stack.add(card);
 
-        assertEquals(stack.getCardList().get(0), card);
+        assertEquals(stack.cardList().get(0), card);
     }
 
     @Test
@@ -31,11 +31,11 @@ public class CardStackTest {
 
         CardStack stack = new CardStack(cards);
 
-        assertEquals(stack.getCardList().size(), 1);
+        assertEquals(stack.cardList().size(), 1);
 
         stack.remove(card);
 
-        assertEquals(stack.getCardList().size(), 0);
+        assertEquals(stack.cardList().size(), 0);
     }
 
     @Test

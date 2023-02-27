@@ -7,7 +7,6 @@ import de.dhbwka.uno.domain.SimplePlayer;
 import java.util.Map;
 
 public class InMemoryHighScoreRepository implements HighScoreStorageRepository {
-
     private final HighScore highScore = new HighScore();
 
     @Override
@@ -24,4 +23,5 @@ public class InMemoryHighScoreRepository implements HighScoreStorageRepository {
     public HighScore getHighScore() {
         return highScore;
     }
+
 }

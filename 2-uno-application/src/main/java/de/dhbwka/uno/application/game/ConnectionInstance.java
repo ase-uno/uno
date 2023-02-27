@@ -10,4 +10,5 @@ public class ConnectionInstance {
     public String getLocalName() {
         return name;
     }
+
 }

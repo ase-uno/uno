@@ -13,4 +13,5 @@ class ConnectionInstanceTest {
         ConnectionInstance con = new ConnectionInstance(name);
         assertEquals(con.getLocalName(), name);
     }
+
 }

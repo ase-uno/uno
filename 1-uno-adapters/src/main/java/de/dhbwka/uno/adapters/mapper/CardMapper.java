@@ -16,10 +16,11 @@ public class CardMapper {
 
     private static final String CARDNUMBER_NUMBER = "number";
 
-    private CardMapper() {}
+    private CardMapper() {
+    }
 
     public static JsonElement cardToJson(Card card) {
-        if(card == null) return new JsonNull();
+        if (card == null) return new JsonNull();
 
         HashMap<String, JsonElement> props = new HashMap<>();
         props.put(CARD_CARDNUMBER, cardNumberToJson(card.getNumber()));
@@ -30,7 +31,7 @@ public class CardMapper {
     }
 
     private static JsonElement cardNumberToJson(CardNumber cardNumber) {
-        if(cardNumber == null) return new JsonNull();
+        if (cardNumber == null) return new JsonNull();
 
         HashMap<String, JsonElement> props = new HashMap<>();
         props.put(CARDNUMBER_NUMBER, new JsonNumber(cardNumber.getValue()));
@@ -39,25 +40,24 @@ public class CardMapper {
     }
 
     public static JsonElement cardColorToJson(CardColor cardColor) {
-        if(cardColor == null) return new JsonNull();
+        if (cardColor == null) return new JsonNull();
 
         return new JsonString(cardColor.name());
     }
 
     private static JsonElement cardActionToJson(CardAction action) {
-        if(action == null) return new JsonNull();
+        if (action == null) return new JsonNull();
 
         HashMap<String, JsonElement> props = new HashMap<>();
-        props.put(CARDACTION_ACTION, new JsonString(action.getAction().toString()));
-        props.put(CARDACTION_DRAW, new JsonNumber(action.getDraw()));
+        props.put(CARDACTION_ACTION, new JsonString(action.action().toString()));
+        props.put(CARDACTION_DRAW, new JsonNumber(action.draw()));
 
         return new JsonObject(props);
     }
 
 
-
     public static Card cardFromJson(JsonElement jsonElement) {
-        if(jsonElement instanceof JsonNull) return null;
+        if (jsonElement instanceof JsonNull) return null;
 
         JsonObject jsonObject = (JsonObject) jsonElement;
 
@@ -70,7 +70,7 @@ public class CardMapper {
     }
 
     private static CardNumber cardNumberFromJson(JsonElement jsonElement) {
-        if(jsonElement instanceof JsonNull) return null;
+        if (jsonElement instanceof JsonNull) return null;
 
         JsonObject jsonObject = (JsonObject) jsonElement;
         JsonNumber jsonNumber = (JsonNumber) jsonObject.get(CARDNUMBER_NUMBER);
@@ -78,16 +78,16 @@ public class CardMapper {
     }
 
     public static CardColor cardColorFromJson(JsonElement jsonElement) {
-        if(jsonElement instanceof JsonNull) return null;
+        if (jsonElement instanceof JsonNull) return null;
 
-        return CardColor.valueOf(((JsonString) jsonElement).getValue());
+        return CardColor.valueOf(((JsonString) jsonElement).value());
     }
 
     private static CardAction cardActionFromJson(JsonElement jsonElement) {
-        if(jsonElement instanceof JsonNull) return null;
+        if (jsonElement instanceof JsonNull) return null;
 
         JsonObject jsonObject = (JsonObject) jsonElement;
-        Action action = Action.valueOf(((JsonString) jsonObject.get(CARDACTION_ACTION)).getValue());
+        Action action = Action.valueOf(((JsonString) jsonObject.get(CARDACTION_ACTION)).value());
         Integer draw = (Integer) ((JsonNumber) jsonObject.get(CARDACTION_DRAW)).getValue();
 
         return new CardAction(action, draw);

@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 
 public class HighScoreMapper {
 
-    private HighScoreMapper() {}
+    private HighScoreMapper() {
+    }
 
     public static JsonObject highScoreToJson(HighScore highScore) {
         Map<String, JsonElement> elements = highScore.getElements()
@@ -30,7 +31,7 @@ public class HighScoreMapper {
     }
 
     public static HighScore highScoreFromJson(JsonElement jsonElement) {
-        if(jsonElement instanceof JsonNull) return new HighScore();
+        if (jsonElement instanceof JsonNull) return new HighScore();
 
         JsonObject jsonObject = (JsonObject) jsonElement;
 

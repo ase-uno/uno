@@ -6,4 +6,5 @@ public class JsonNull implements JsonElement {
     public String toJsonString() {
         return "null";
     }
+
 }

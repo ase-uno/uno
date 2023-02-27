@@ -12,8 +12,7 @@ import java.nio.file.Path;
 public class FileStorage implements AbstractStorageRepository {
 
     @Override
-    public JsonElement getFile(String fileName) {
-
+    public JsonElement load(String fileName) {
         try {
             String content = new String(Files.readAllBytes(Path.of(fileName)));
             return new JsonConverter().fromJsonString(content);
@@ -24,8 +23,9 @@ public class FileStorage implements AbstractStorageRepository {
     }
 
     @Override
-    public void storeFile(String fileName, JsonElement content) {
+    public void save(String fileName, JsonElement content) {
         Path path = Path.of(fileName);
+
         try {
             if (!Files.exists(path)) {
                 Files.createDirectories(path.getParent());
@@ -34,10 +34,12 @@ public class FileStorage implements AbstractStorageRepository {
         } catch (Exception e) {
             return;
         }
+
         try (FileWriter fileWriter = new FileWriter(fileName)) {
             fileWriter.write(content.toJsonString());
         } catch (IOException ignored) {
             //if it does not work, we just ignore it :)
         }
     }
+
 }

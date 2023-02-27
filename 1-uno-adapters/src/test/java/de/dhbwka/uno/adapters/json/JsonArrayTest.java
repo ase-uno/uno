@@ -16,7 +16,7 @@ class JsonArrayTest {
 
         JsonArray arr = new JsonArray(elements);
 
-        assertEquals(arr.getElements(), elements);
+        assertEquals(arr.elements(), elements);
     }
 
     @Test
