@@ -2,13 +2,11 @@ package de.dhbwka.uno.application.server;
 
 import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.application.game.ConnectionInstance;
-import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.game.GameInitializer;
 import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.domain.CardStack;
-import de.dhbwka.uno.domain.Player;
+import de.dhbwka.uno.domain.SimplePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class Server extends ConnectionInstance {
 
     private void startGame(CardProvider cardProvider, HighScoreStorageRepository highScoreStorageRepository) {
         this.players.add(new SimplePlayerWithConnection(
-                new Player(getLocalName(), new CardStack(new ArrayList<>())),
+                new SimplePlayer(getLocalName()),
                 localPlayer.playerConnection()
         ));
 

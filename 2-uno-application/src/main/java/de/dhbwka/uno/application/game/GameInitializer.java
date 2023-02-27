@@ -14,12 +14,15 @@ import java.util.List;
 
 public class GameInitializer {
 
+    private GameInitializer() {}
+
     public static void startNewGame(CardProvider cardProvider, List<SimplePlayerWithConnection> simplePlayers, HighScoreStorageRepository highScoreStorageRepository) {
         List<PlayerWithConnection> players = initPlayers(simplePlayers);
         List<Card> cards = distributeCards(players, cardProvider);
         Card activeCard = getActiveCard(cards);
 
-        new Game(players, new CardStack(cards), activeCard, highScoreStorageRepository);
+        new Game(players, new CardStack(cards), activeCard, highScoreStorageRepository)
+                .start();
     }
 
     /**
@@ -48,9 +51,7 @@ public class GameInitializer {
         Collections.shuffle(cards);
 
         for (PlayerWithConnection p : players) {
-            cards.subList(0, 7).forEach(c -> {
-                p.player().getCardStack().add(c);
-            });
+            cards.subList(0, 7).forEach(c -> p.player().getCardStack().add(c));
 
             cards = cards.subList(7, cards.size());
         }
