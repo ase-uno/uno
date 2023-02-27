@@ -2,18 +2,14 @@ package de.dhbwka.uno.application.server;
 
 import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.application.game.ConnectionInstance;
-import de.dhbwka.uno.application.game.Game;
 import de.dhbwka.uno.application.game.GameInitializer;
 import de.dhbwka.uno.application.io.ConsoleOut;
-import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardStack;
 import de.dhbwka.uno.domain.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,15 +18,10 @@ public class Server extends ConnectionInstance {
     private final SimplePlayerWithConnection localPlayer;
 
     private final ConsoleOut console;
-    private final CardProvider cardProvider;
 
     private boolean waitingForPlayers = true;
 
     private final List<SimplePlayerWithConnection> players = new ArrayList<>();
-    private List<Card> cards;
-    private Game game;
-
-    private final HighScoreStorageRepository highScoreStorageRepository;
 
     public Server(SimplePlayerWithConnection localPlayer,
                   ConnectionServer connectionServer,
@@ -42,17 +33,15 @@ public class Server extends ConnectionInstance {
         this.localPlayer = localPlayer;
         this.connectionServer = connectionServer;
         this.console = console;
-        this.cardProvider = cardProvider;
-        this.highScoreStorageRepository = highScoreStorageRepository;
 
         startServer();
 
-        startGame();
+        startGame(cardProvider, highScoreStorageRepository);
 
         closeServer();
     }
 
-    private void startGame() {
+    private void startGame(CardProvider cardProvider, HighScoreStorageRepository highScoreStorageRepository) {
         this.players.add(new SimplePlayerWithConnection(
                 new Player(getLocalName(), new CardStack(new ArrayList<>())),
                 localPlayer.playerConnection()
