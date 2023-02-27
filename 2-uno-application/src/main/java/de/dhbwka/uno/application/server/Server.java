@@ -3,6 +3,7 @@ package de.dhbwka.uno.application.server;
 import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.application.game.ConnectionInstance;
 import de.dhbwka.uno.application.game.Game;
+import de.dhbwka.uno.application.game.GameInitializer;
 import de.dhbwka.uno.application.io.ConsoleOut;
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
@@ -26,7 +27,6 @@ public class Server extends ConnectionInstance {
     private boolean waitingForPlayers = true;
 
     private final List<SimplePlayerWithConnection> players = new ArrayList<>();
-    private List<PlayerWithConnection> players2 = new ArrayList<>();
     private List<Card> cards;
     private Game game;
 
@@ -47,49 +47,18 @@ public class Server extends ConnectionInstance {
 
         startServer();
 
-        initCards();
-        initPlayers();
-        initGame();
-
-        game.start();
+        startGame();
 
         closeServer();
     }
 
-    private void initCards() {
-        cards = cardProvider.listAllCards();
-        Collections.shuffle(cards);
-    }
+    private void startGame() {
+        this.players.add(new SimplePlayerWithConnection(
+                new Player(getLocalName(), new CardStack(new ArrayList<>())),
+                localPlayer.playerConnection()
+        ));
 
-    private CardStack getPlayerCards() {
-        List<Card> playerCards = cards.subList(0, 7);
-        cards = cards.subList(7, cards.size());
-        return new CardStack(playerCards);
-    }
-
-    private void initPlayers() {
-        players2 = new ArrayList<>();
-
-        players2.add(new PlayerWithConnection(
-                new Player(getLocalName(), getPlayerCards()),
-                localPlayer.playerConnection()));
-
-        for (SimplePlayerWithConnection spwc : this.players) {
-            Player p = new Player(spwc.simplePlayer().getName(), getPlayerCards());
-            PlayerWithConnection pwc = new PlayerWithConnection(p, spwc.playerConnection());
-            players2.add(pwc);
-        }
-    }
-
-    private void initGame() {
-        Card activeCard;
-        int i = -1;
-        do {
-            activeCard = cards.get(++i);
-        } while (activeCard.hasAction());
-        cards.remove(i);
-
-        game = new Game(players2, new CardStack(cards), activeCard, highScoreStorageRepository);
+        GameInitializer.startNewGame(cardProvider, players, highScoreStorageRepository);
     }
 
     private void startServer() {
