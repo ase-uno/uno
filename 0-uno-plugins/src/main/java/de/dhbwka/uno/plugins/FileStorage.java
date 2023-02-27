@@ -1,7 +1,8 @@
-package de.dhbwka.uno.adapters.persistence;
+package de.dhbwka.uno.plugins;
 
 import de.dhbwka.uno.adapters.json.JsonConverter;
 import de.dhbwka.uno.adapters.json.JsonElement;
+import de.dhbwka.uno.adapters.persistence.AbstractStorageRepository;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileStorage implements AbstractStorageRepository {
+
     @Override
     public JsonElement getFile(String fileName) {
 
@@ -25,7 +27,7 @@ public class FileStorage implements AbstractStorageRepository {
     public void storeFile(String fileName, JsonElement content) {
         Path path = Path.of(fileName);
         try {
-            if(!Files.exists(path)) {
+            if (!Files.exists(path)) {
                 Files.createDirectories(path.getParent());
                 Files.createFile(path);
             }

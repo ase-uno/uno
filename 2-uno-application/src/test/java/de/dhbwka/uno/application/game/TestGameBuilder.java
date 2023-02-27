@@ -2,7 +2,7 @@ package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.application.persistence.InMemoryHighscoreRepository;
+import de.dhbwka.uno.application.persistence.InMemoryHighScoreRepository;
 import de.dhbwka.uno.domain.*;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class TestGameBuilder {
     public TestGameBuilder() {
 
         this.cardStackOverwrite = null;
-        this.highScoreStorageRepository = new InMemoryHighscoreRepository();
+        this.highScoreStorageRepository = new InMemoryHighScoreRepository();
         this.playerConnection1 = new MockedPlayerConnection();
         this.playerConnection2 = new MockedPlayerConnection();
 
@@ -92,7 +92,7 @@ public class TestGameBuilder {
         CardStack cardStackPlayer1 = player1CardStackOverwrite != null ? player1CardStackOverwrite : playerCardStack;
 
         return List.of(new PlayerWithConnection(new Player("1", cardStackPlayer1), playerConnection1),
-                       new PlayerWithConnection(new Player("2", playerCardStack), playerConnection2));
+                new PlayerWithConnection(new Player("2", playerCardStack), playerConnection2));
     }
 
 }

@@ -1,12 +1,11 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.application.game;
 
-import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardGenerator implements CardProvider {
+public class CardProviderImpl implements CardProvider {
 
 
     @Override

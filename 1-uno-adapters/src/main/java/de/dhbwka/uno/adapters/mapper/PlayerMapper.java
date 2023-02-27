@@ -12,7 +12,8 @@ public class PlayerMapper {
     private static final String PLAYERDTO_NAME = "name";
 
 
-    private PlayerMapper() {}
+    private PlayerMapper() {
+    }
 
     public static JsonElement playerDTOToJson(SimplePlayer player) {
         HashMap<String, JsonElement> props = new HashMap<>();

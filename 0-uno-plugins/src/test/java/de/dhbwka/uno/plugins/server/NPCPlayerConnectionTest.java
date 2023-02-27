@@ -1,4 +1,4 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardColor;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class NPCPlayerConnectionTest {
 
@@ -22,7 +22,7 @@ class NPCPlayerConnectionTest {
 
         NPCPlayerConnection con = new NPCPlayerConnection("Bob der Baumeister");
 
-        Card c = con.input(activeCard, cardStack);
+        Card c = con.playCard(activeCard, cardStack);
 
         assertNull(c);
     }

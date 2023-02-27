@@ -1,5 +1,8 @@
 package de.dhbwka.uno.domain;
 
+/**
+ * Repräsentiert einen Spieler nachdem das Spiel begonnen hat
+ */
 public class Player extends SimplePlayer {
     private final CardStack cardStack;
 

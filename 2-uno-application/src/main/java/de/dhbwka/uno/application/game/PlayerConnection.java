@@ -2,10 +2,13 @@ package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.domain.*;
 
+/**
+ * Verbindung zu einem Client
+ */
 public interface PlayerConnection {
 
-    Card input(Card active, CardStack cardStack);
-    CardColor inputColor();
+    Card playCard(Card active, CardStack cardStack);
+    CardColor selectColor();
 
     void broadcastWinner(SimplePlayer winner);
 

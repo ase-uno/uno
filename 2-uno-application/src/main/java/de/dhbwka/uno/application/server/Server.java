@@ -1,139 +1,85 @@
 package de.dhbwka.uno.application.server;
 
-import de.dhbwka.uno.application.config.ConnectionConfig;
-import de.dhbwka.uno.application.game.*;
-import de.dhbwka.uno.application.io.ConsoleOut;
-import de.dhbwka.uno.application.model.PlayerWithConnection;
-import de.dhbwka.uno.application.model.SocketNameCombination;
-import de.dhbwka.uno.application.model.SocketNameCombinationFactory;
+import de.dhbwka.uno.application.game.CardProvider;
+import de.dhbwka.uno.application.game.ConnectionInstance;
+import de.dhbwka.uno.application.game.GameInitializer;
+import de.dhbwka.uno.application.io.Console;
+import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
-import de.dhbwka.uno.domain.Card;
-import de.dhbwka.uno.domain.CardStack;
-import de.dhbwka.uno.domain.Player;
+import de.dhbwka.uno.domain.SimplePlayer;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class Server extends ConnectionInstance {
+    private final ConnectionServer connectionServer;
+    private final SimplePlayerWithConnection localPlayer;
 
-    private Game game;
+    private final Console console;
 
-    private List<PlayerWithConnection> players;
-    private List<Card> cards;
-    private ServerSocket serverSocket;
-    private boolean isServerSearchingForInput = true;
-    private final List<SocketNameCombination> connections = new ArrayList<>();
+    private boolean waitingForPlayers = true;
 
-    private final ConsoleOut console;
-    private final CardProvider cardProvider;
+    private final List<SimplePlayerWithConnection> players = new ArrayList<>();
 
-    private final HighScoreStorageRepository highScoreStorageRepository;
-
-    private final PlayerConnectionFactory playerConnectionFactory;
-    private final SocketNameCombinationFactory socketNameCombinationFactory;
-
-    public Server(String localName,
-                  ConsoleOut console,
+    public Server(SimplePlayerWithConnection localPlayer,
+                  ConnectionServer connectionServer,
+                  Console console,
                   CardProvider cardProvider,
-                  HighScoreStorageRepository highScoreStorageRepository,
-                  PlayerConnectionFactory playerConnectionFactory,
-                  SocketNameCombinationFactory socketNameCombinationFactory) throws IOException {
-        super(localName);
+                  HighScoreStorageRepository highScoreStorageRepository) {
+        super(localPlayer.simplePlayer().getName());
+
+        this.localPlayer = localPlayer;
+        this.connectionServer = connectionServer;
         this.console = console;
-        this.cardProvider = cardProvider;
-        this.highScoreStorageRepository = highScoreStorageRepository;
-        this.playerConnectionFactory = playerConnectionFactory;
-        this.socketNameCombinationFactory = socketNameCombinationFactory;
 
         startServer();
 
-        initCards();
-        initPlayers();
-        initGame();
-        game.start();
+        startGame(cardProvider, highScoreStorageRepository);
+
         closeServer();
     }
 
-    private void initCards() {
-        cards = cardProvider.listAllCards();
-        Collections.shuffle(cards);
+    private void startGame(CardProvider cardProvider, HighScoreStorageRepository highScoreStorageRepository) {
+        this.players.add(new SimplePlayerWithConnection(
+                new SimplePlayer(getLocalName()),
+                localPlayer.playerConnection()
+        ));
+
+        GameInitializer.startNewGame(cardProvider, players, highScoreStorageRepository);
     }
 
-    private CardStack getPlayerCards() {
-        List<Card> playerCards = cards.subList(0, 7);
-        cards = cards.subList(7, cards.size());
-        return new CardStack(playerCards);
-    }
+    private void startServer() {
+        connectionServer.registerConnectDecider(player -> waitingForPlayers);
+        connectionServer.registerConnectDecider(newPlayer -> {
+            if(this.localPlayer.simplePlayer().getName().equals(newPlayer.getName())) return false;
 
-    private void initPlayers() {
-        players = new ArrayList<>();
-        players.add(new PlayerWithConnection(
-                new Player(getLocalName(), getPlayerCards()),
-                playerConnectionFactory.localConnection()));
-        for(SocketNameCombination snc : connections) {
-            Player p = new Player(snc.getName(), getPlayerCards());
-            PlayerWithConnection pwc = new PlayerWithConnection(p, playerConnectionFactory.remoteConnection(snc));
-            players.add(pwc);
-        }
-    }
+            return players.stream()
+                    .map(simplePlayerWithConnection -> simplePlayerWithConnection.simplePlayer().getName())
+                    .noneMatch(existingPlayerName -> newPlayer.getName().equals(existingPlayerName));
+        });
 
-    private void initGame() {
-        Card activeCard;
-        int i = -1;
-        do {
-            activeCard = cards.get(++i);
-        } while(activeCard.hasAction());
-        cards.remove(i);
-        game = new Game(players, new CardStack(cards), activeCard, highScoreStorageRepository);
-    }
-
-    private void startServer() throws IOException {
+        connectionServer.onUserJoined(player -> {
+            players.add(player);
+            console.println("Player " + player.simplePlayer().getName() + " connected!");
+        });
+        connectionServer.startServer();
 
         console.println("Waiting for players");
-        serverSocket = new ServerSocket(ConnectionConfig.SOCKET_PORT);
-
-        Thread thread = new Thread(() -> {
-            while(isServerSearchingForInput) {
-                try {
-                    Socket socket = serverSocket.accept();
-                    if(!isServerSearchingForInput) {
-                        socket.close();
-                        return;
-                    }
-                    SocketNameCombination socketNameCombination = socketNameCombinationFactory.fromSocket(socket);
-                    connections.add(socketNameCombination);
-                    console.println("Player " + socketNameCombination.getName() + " connected");
-                } catch (IOException e) {
-                    if(isServerSearchingForInput) {
-                        console.error("Error in Socket connection loop");
-                    }
-                }
-            }
-        });
-        thread.start();
-
         console.println("Press Enter to proceed");
-        Scanner scanner = new Scanner(System.in);
-        while(connections.isEmpty()) {
-            scanner.nextLine();
-            if(connections.isEmpty()) {
+
+        while (players.isEmpty()) {
+            console.readLine();
+
+            if (players.isEmpty()) {
                 console.error("No players connected yet, not starting...");
             }
         }
-        isServerSearchingForInput = false;
+
+        waitingForPlayers = false;
     }
 
     private void closeServer() {
-        try {
-            serverSocket.close();
-        } catch (IOException ignored) {
-            // if that throws an error, the connection is probably already closed
-        }
+        connectionServer.stopServer();
     }
 
 }

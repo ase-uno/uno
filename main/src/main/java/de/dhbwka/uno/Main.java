@@ -1,25 +1,27 @@
 package de.dhbwka.uno;
 
-import de.dhbwka.uno.adapters.client.SocketConnectionInitializerImpl;
-import de.dhbwka.uno.adapters.game.PlayerConnectionFactoryImpl;
-import de.dhbwka.uno.adapters.model.SocketNameCombinationFactoryImpl;
-import de.dhbwka.uno.adapters.persistence.FileStorage;
 import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
-import de.dhbwka.uno.adapters.plugins.CardGenerator;
-import de.dhbwka.uno.adapters.plugins.ConsoleAdapter;
 import de.dhbwka.uno.application.client.Client;
+import de.dhbwka.uno.application.game.CardProviderImpl;
+import de.dhbwka.uno.application.game.PlayerConnection;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.io.ConsoleColor;
-import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.Server;
-
-import java.io.IOException;
-import java.util.Scanner;
+import de.dhbwka.uno.domain.SimplePlayer;
+import de.dhbwka.uno.plugins.ConnectionServerSocket;
+import de.dhbwka.uno.plugins.ConsoleImpl;
+import de.dhbwka.uno.plugins.FileStorage;
+import de.dhbwka.uno.plugins.client.ConnectionInitializerImpl;
+import de.dhbwka.uno.plugins.game.PlayerConnectionFactoryImpl;
+import de.dhbwka.uno.plugins.server.ConsolePlayerConnection;
 
 public class Main {
+    private static final int PORT = 9999;
 
-    private static final ConsoleOut console = new ConsoleAdapter();
+    private static final Console console = new ConsoleImpl();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         console.println(ConsoleColor.YELLOW, "Willkommen");
 
         console.println();
@@ -32,11 +34,9 @@ public class Main {
     private static String inputName() {
         console.println("Wie heißt du?");
 
-        Scanner scanner = new Scanner(System.in);
-
         String name;
         do {
-            name = scanner.nextLine();
+            name = console.readLine();
         } while (name.strip().length() == 0);
 
         console.println();
@@ -45,10 +45,7 @@ public class Main {
     }
 
 
-
     private static int inputMode() {
-
-        Scanner scanner = new Scanner(System.in);
 
         console.println("0) Server öffnen");
         console.println("1) Mit anderem Server verbinden");
@@ -58,7 +55,7 @@ public class Main {
         int input = -1;
         do {
             try {
-                input = scanner.nextInt();
+                input = console.readInt();
             } catch (Exception ignored) {
                 //if an error occurs, new user-input is requested by the loop
             }
@@ -67,20 +64,21 @@ public class Main {
         return input;
     }
 
-    private static void start(String name, int mode) throws IOException {
+    private static void start(String name, int mode) {
 
-        if(mode == 0) {
-            new Server(name,
+        if (mode == 0) {
+            SimplePlayer player = new SimplePlayer(name);
+            PlayerConnection connection = new ConsolePlayerConnection(console);
+
+            new Server(new SimplePlayerWithConnection(player, connection),
+                    new ConnectionServerSocket(PORT),
                     console,
-                    new CardGenerator(),
-                    new HighScoreStorage(new FileStorage()),
-                    new PlayerConnectionFactoryImpl(console),
-                    new SocketNameCombinationFactoryImpl());
+                    new CardProviderImpl(),
+                    new HighScoreStorage(new FileStorage()));
         } else {
-            new Client(name,
-                    console,
+            new Client(name, console,
                     new PlayerConnectionFactoryImpl(console),
-                    new SocketConnectionInitializerImpl());
+                    new ConnectionInitializerImpl(PORT));
         }
     }
 

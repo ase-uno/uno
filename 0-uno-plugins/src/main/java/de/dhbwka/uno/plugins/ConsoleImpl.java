@@ -1,9 +1,11 @@
-package de.dhbwka.uno.adapters.plugins;
+package de.dhbwka.uno.plugins;
 
 import de.dhbwka.uno.application.io.ConsoleColor;
-import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.io.Console;
 
-public class ConsoleAdapter implements ConsoleOut {
+import java.util.Scanner;
+
+public class ConsoleImpl implements Console {
 
     @Override
     public void print(ConsoleColor color, String message) {
@@ -15,11 +17,23 @@ public class ConsoleAdapter implements ConsoleOut {
         System.err.println(colorChange(ConsoleColor.RED) + message);
     }
 
+    @Override
+    public String readLine() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    @Override
+    public int readInt() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextInt();
+    }
+
     private String colorChange(ConsoleColor color) {
         return colorChange(color.getColorNumber());
     }
 
     private String colorChange(int color) {
-        return (char)27 + "[" + color + "m";
+        return (char) 27 + "[" + color + "m";
     }
 }
