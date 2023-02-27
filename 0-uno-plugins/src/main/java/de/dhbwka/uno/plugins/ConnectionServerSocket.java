@@ -1,23 +1,32 @@
 package de.dhbwka.uno.plugins;
 
+import de.dhbwka.uno.adapters.json.JsonConverter;
+import de.dhbwka.uno.adapters.json.JsonElement;
+import de.dhbwka.uno.adapters.json.JsonString;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.ConnectionAcceptDecider;
 import de.dhbwka.uno.application.server.ConnectionServer;
 import de.dhbwka.uno.domain.SimplePlayer;
 import de.dhbwka.uno.plugins.server.SocketPlayerConnection;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class ConnectionServerSocket implements ConnectionServer {
     private final int port;
     private ServerSocket socket;
-    private ConnectionAcceptDecider connectionAcceptDecider;
-    private Thread acceptThread;
+    private final List<ConnectionAcceptDecider> connectionAcceptDeciders;
+    private final List<Consumer<SimplePlayerWithConnection>> userJoinedEventConsumers;
 
     public ConnectionServerSocket(int port) {
         this.port = port;
+        this.connectionAcceptDeciders = new ArrayList<>();
+        this.userJoinedEventConsumers = new ArrayList<>();
     }
 
     @Override
@@ -25,25 +34,23 @@ public class ConnectionServerSocket implements ConnectionServer {
         try {
             socket = new ServerSocket(port);
 
-            acceptThread = new Thread(() -> {
+            Thread acceptThread = new Thread(() -> {
                 while (!socket.isClosed()) {
                     try {
                         Socket s = socket.accept();
 
-                        // TODO: read name from socket
-                        String name = "Peter Lustig";
-
-                        SimplePlayer player = new SimplePlayer(name);
+                        SimplePlayer player = readNameFromSocket(s);
                         SocketPlayerConnection connection = new SocketPlayerConnection(s);
                         SimplePlayerWithConnection spwc = new SimplePlayerWithConnection(player, connection);
 
-                        boolean accept = connectionAcceptDecider.accept(spwc);
+                        boolean anyDeciderDenies = connectionAcceptDeciders.stream()
+                                .anyMatch(cad -> !cad.accept(player));
 
-                        if (!accept) {
-                            // TODO: schöne Nachricht schicken
+                        if (anyDeciderDenies) {
                             s.close();
                             return;
                         }
+                        userJoinedEventConsumers.forEach(consumer -> consumer.accept(spwc));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -70,6 +77,24 @@ public class ConnectionServerSocket implements ConnectionServer {
 
     @Override
     public void registerConnectDecider(ConnectionAcceptDecider connectionAcceptDecider) {
-        this.connectionAcceptDecider = connectionAcceptDecider;
+        this.connectionAcceptDeciders.add(connectionAcceptDecider);
+    }
+
+    @Override
+    public void onUserJoined(Consumer<SimplePlayerWithConnection> consumer) {
+        this.userJoinedEventConsumers.add(consumer);
+    }
+
+    private SimplePlayer readNameFromSocket(Socket socket) {
+
+        try {
+            DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
+            JsonElement jsonElement = new JsonConverter().fromJsonString(dataInputStream.readUTF());
+            String remoteName = ((JsonString) jsonElement).getValue();
+            return new SimplePlayer(remoteName);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 }

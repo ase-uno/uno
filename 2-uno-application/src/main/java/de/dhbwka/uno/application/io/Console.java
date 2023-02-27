@@ -1,6 +1,6 @@
 package de.dhbwka.uno.application.io;
 
-public interface ConsoleOut {
+public interface Console {
 
     default void print(String message) {
         print(ConsoleColor.RESET, message);
@@ -21,5 +21,9 @@ public interface ConsoleOut {
     void print(ConsoleColor color, String message);
 
     void error(String message);
+
+    String readLine();
+
+    int readInt();
 
 }

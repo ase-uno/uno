@@ -2,10 +2,9 @@ package de.dhbwka.uno.plugins.client;
 
 import de.dhbwka.uno.application.client.ConnectionInitializer;
 import de.dhbwka.uno.application.game.PlayerConnection;
-import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.io.Console;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ConnectionInitializerImpl implements ConnectionInitializer {
     private final int port;
@@ -15,11 +14,10 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
     }
 
     @Override
-    public void connect(String localPlayerName, PlayerConnection playerConnection, ConsoleOut console) {
+    public void connect(String localPlayerName, PlayerConnection playerConnection, Console console) {
         console.println("Ziel-IP: ");
 
-        Scanner scanner = new Scanner(System.in);
-        String ip = scanner.nextLine();
+        String ip = console.readLine();
 
         try {
             new SocketConnection(ip, port, localPlayerName, playerConnection, console);

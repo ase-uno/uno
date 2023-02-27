@@ -4,27 +4,24 @@ import de.dhbwka.uno.adapters.persistence.HighScoreStorage;
 import de.dhbwka.uno.application.client.Client;
 import de.dhbwka.uno.application.game.CardProviderImpl;
 import de.dhbwka.uno.application.game.PlayerConnection;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.io.ConsoleColor;
-import de.dhbwka.uno.application.io.ConsoleOut;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.server.Server;
 import de.dhbwka.uno.domain.SimplePlayer;
 import de.dhbwka.uno.plugins.ConnectionServerSocket;
-import de.dhbwka.uno.plugins.ConsoleOutImpl;
+import de.dhbwka.uno.plugins.ConsoleImpl;
 import de.dhbwka.uno.plugins.FileStorage;
 import de.dhbwka.uno.plugins.client.ConnectionInitializerImpl;
 import de.dhbwka.uno.plugins.game.PlayerConnectionFactoryImpl;
 import de.dhbwka.uno.plugins.server.ConsolePlayerConnection;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 public class Main {
     private static final int PORT = 9999;
 
-    private static final ConsoleOut console = new ConsoleOutImpl();
+    private static final Console console = new ConsoleImpl();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         console.println(ConsoleColor.YELLOW, "Willkommen");
 
         console.println();
@@ -37,11 +34,9 @@ public class Main {
     private static String inputName() {
         console.println("Wie heißt du?");
 
-        Scanner scanner = new Scanner(System.in);
-
         String name;
         do {
-            name = scanner.nextLine();
+            name = console.readLine();
         } while (name.strip().length() == 0);
 
         console.println();
@@ -52,8 +47,6 @@ public class Main {
 
     private static int inputMode() {
 
-        Scanner scanner = new Scanner(System.in);
-
         console.println("0) Server öffnen");
         console.println("1) Mit anderem Server verbinden");
         console.println();
@@ -62,7 +55,7 @@ public class Main {
         int input = -1;
         do {
             try {
-                input = scanner.nextInt();
+                input = console.readInt();
             } catch (Exception ignored) {
                 //if an error occurs, new user-input is requested by the loop
             }

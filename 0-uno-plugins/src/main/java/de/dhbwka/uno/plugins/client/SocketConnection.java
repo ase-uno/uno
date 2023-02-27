@@ -7,7 +7,7 @@ import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
 import de.dhbwka.uno.adapters.mapper.PlayerMapper;
 import de.dhbwka.uno.application.game.PlayerConnection;
 import de.dhbwka.uno.application.io.ConsoleColor;
-import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.domain.*;
 
 import java.io.DataInputStream;
@@ -18,7 +18,7 @@ import java.net.Socket;
 public class SocketConnection {
 
     private final PlayerConnection playerConnection;
-    private final ConsoleOut console;
+    private final Console console;
     private Socket socket;
 
     public SocketConnection(
@@ -26,7 +26,7 @@ public class SocketConnection {
             int port,
             String name,
             PlayerConnection playerConnection,
-            ConsoleOut console) throws IOException {
+            Console console) throws IOException {
         this.playerConnection = playerConnection;
         this.console = console;
 

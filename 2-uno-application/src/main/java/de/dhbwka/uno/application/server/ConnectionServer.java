@@ -1,5 +1,9 @@
 package de.dhbwka.uno.application.server;
 
+import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
+
+import java.util.function.Consumer;
+
 /**
  *
  */
@@ -19,5 +23,7 @@ public interface ConnectionServer {
      * @param connectionAcceptDecider Callback, um festzulegen, ob Spieler dem Spiel beitreten können
      */
     void registerConnectDecider(ConnectionAcceptDecider connectionAcceptDecider);
+
+    void onUserJoined(Consumer<SimplePlayerWithConnection> playerWithConnection);
 
 }

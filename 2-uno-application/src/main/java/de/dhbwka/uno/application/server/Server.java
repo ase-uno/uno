@@ -3,7 +3,7 @@ package de.dhbwka.uno.application.server;
 import de.dhbwka.uno.application.game.CardProvider;
 import de.dhbwka.uno.application.game.ConnectionInstance;
 import de.dhbwka.uno.application.game.Game;
-import de.dhbwka.uno.application.io.ConsoleOut;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
 import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
@@ -14,13 +14,12 @@ import de.dhbwka.uno.domain.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 public class Server extends ConnectionInstance {
     private final ConnectionServer connectionServer;
     private final SimplePlayerWithConnection localPlayer;
 
-    private final ConsoleOut console;
+    private final Console console;
     private final CardProvider cardProvider;
 
     private boolean waitingForPlayers = true;
@@ -34,7 +33,7 @@ public class Server extends ConnectionInstance {
 
     public Server(SimplePlayerWithConnection localPlayer,
                   ConnectionServer connectionServer,
-                  ConsoleOut console,
+                  Console console,
                   CardProvider cardProvider,
                   HighScoreStorageRepository highScoreStorageRepository) {
         super(localPlayer.simplePlayer().getName());
@@ -93,24 +92,26 @@ public class Server extends ConnectionInstance {
     }
 
     private void startServer() {
-        connectionServer.startServer();
-        connectionServer.registerConnectDecider((player) -> {
-            if (!waitingForPlayers) {
-                return false;
-            }
+        connectionServer.registerConnectDecider(player -> waitingForPlayers);
+        connectionServer.registerConnectDecider(newPlayer -> {
+            if(this.localPlayer.simplePlayer().getName().equals(newPlayer.getName())) return false;
 
+            return players.stream()
+                    .map(simplePlayerWithConnection -> simplePlayerWithConnection.simplePlayer().getName())
+                    .noneMatch(existingPlayerName -> newPlayer.getName().equals(existingPlayerName));
+        });
+
+        connectionServer.onUserJoined(player -> {
             players.add(player);
             console.println("Player " + player.simplePlayer().getName() + " connected!");
-
-            return true;
         });
+        connectionServer.startServer();
 
         console.println("Waiting for players");
         console.println("Press Enter to proceed");
 
-        Scanner scanner = new Scanner(System.in); // TODO: -> plugin
         while (players.isEmpty()) {
-            scanner.nextLine();
+            console.readLine();
 
             if (players.isEmpty()) {
                 console.error("No players connected yet, not starting...");

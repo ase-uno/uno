@@ -1,21 +1,20 @@
 package de.dhbwka.uno.plugins.server;
 
 import de.dhbwka.uno.application.game.PlayerConnection;
+import de.dhbwka.uno.application.io.Console;
 import de.dhbwka.uno.application.io.ConsoleColor;
-import de.dhbwka.uno.application.io.ConsoleOut;
 import de.dhbwka.uno.domain.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 public class ConsolePlayerConnection implements PlayerConnection {
 
-    private final ConsoleOut console;
+    private final Console console;
 
-    public ConsolePlayerConnection(ConsoleOut console) {
+    public ConsolePlayerConnection(Console console) {
         this.console = console;
     }
 
@@ -143,12 +142,11 @@ public class ConsolePlayerConnection implements PlayerConnection {
     }
 
     private int requestUserInputSelection(int min, int maxExcluded) {
-        Scanner scanner = new Scanner(System.in);
         int input = min - 1;
         do {
             try {
                 console.println("Input:");
-                input = scanner.nextInt();
+                input = console.readInt();
             } catch (Exception ignored) {
                 //if an error occurs, new user-input is requested by the loop
             }
