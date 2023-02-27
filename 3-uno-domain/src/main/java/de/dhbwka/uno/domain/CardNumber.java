@@ -14,7 +14,7 @@ public class CardNumber {
     }
 
     public void setValue(int value) {
-        if(value < 0 || value > 9) {
+        if (value < 0 || value > 9) {
             throw new IllegalArgumentException("Numbers only allowed in Interval [0, 9]");
         }
         this.value = value;

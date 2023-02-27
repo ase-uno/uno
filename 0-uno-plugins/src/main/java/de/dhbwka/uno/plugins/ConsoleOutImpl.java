@@ -20,6 +20,6 @@ public class ConsoleOutImpl implements ConsoleOut {
     }
 
     private String colorChange(int color) {
-        return (char)27 + "[" + color + "m";
+        return (char) 27 + "[" + color + "m";
     }
 }

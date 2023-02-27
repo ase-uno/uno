@@ -28,7 +28,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
         printCard(active);
         console.println();
 
-        for(int i = 0; i<cardStack.getCardList().size(); i++) {
+        for (int i = 0; i < cardStack.getCardList().size(); i++) {
             console.println(i + ") " + cardToString(cardStack.getCardList().get(i)));
         }
 
@@ -40,15 +40,15 @@ public class ConsolePlayerConnection implements PlayerConnection {
     private Card requestCardSelection(CardStack cardStack) {
         int input = requestUserInputSelection(-1, cardStack.getCardList().size());
 
-        if(input == -1) return null;
+        if (input == -1) return null;
         return cardStack.getCardList().get(input);
     }
 
     private String cardToString(Card card) {
         Integer number = null;
         String color = null;
-        if(card.getNumber() != null) number = card.getNumber().getValue();
-        if(card.getColor() != null) color = card.getColor().getName();
+        if (card.getNumber() != null) number = card.getNumber().getValue();
+        if (card.getColor() != null) color = card.getColor().getName();
         return "color=" + color + ", cardNumber=" + number + ", action=" + card.getAction();
     }
 
@@ -57,7 +57,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
         ConsoleColor color = cardColorToConsoleColor(card.getColor());
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(filePath);
-        if(inputStream == null) {
+        if (inputStream == null) {
             console.println(cardToString(card));
             return;
         }
@@ -78,16 +78,16 @@ public class ConsolePlayerConnection implements PlayerConnection {
 
         String path = "";
 
-        if(card.getNumber() != null) {
+        if (card.getNumber() != null) {
             path += "numbers/" + card.getNumber().getValue() + ".txt";
-        } else if(card.hasAction()) {
+        } else if (card.hasAction()) {
             path += "actions/";
             String actionName = card.getAction().getAction().name().toLowerCase();
             path += actionName;
-            if(card.getAction().getAction() == Action.DRAW) {
+            if (card.getAction().getAction() == Action.DRAW) {
                 path += "_" + card.getAction().getDraw();
             }
-            if(card.getAction().getDraw() > 0 && card.getAction().getAction() != Action.DRAW) {
+            if (card.getAction().getDraw() > 0 && card.getAction().getAction() != Action.DRAW) {
                 path += "_draw_" + card.getAction().getDraw();
             }
             path += ".txt";
@@ -111,7 +111,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
     public CardColor selectColor() {
         console.println("Input card");
 
-        for(int i = 0; i < CardColor.values().length; i++) {
+        for (int i = 0; i < CardColor.values().length; i++) {
             console.println(i + ") " + CardColor.values()[i].getName());
         }
 
@@ -123,7 +123,7 @@ public class ConsolePlayerConnection implements PlayerConnection {
 
     @Override
     public void broadcastWinner(SimplePlayer winner) {
-        if(winner == null) {
+        if (winner == null) {
             console.println("Tie");
         } else {
             console.println("Winner: " + winner.getName());

@@ -15,7 +15,7 @@ public class CardStack {
     }
 
     public void remove(Card card) {
-        if(card == null) return;
+        if (card == null) return;
         this.cardList.remove(card);
     }
 
