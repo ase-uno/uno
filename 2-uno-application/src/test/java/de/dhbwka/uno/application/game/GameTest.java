@@ -1,6 +1,6 @@
 package de.dhbwka.uno.application.game;
 
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
+import de.dhbwka.uno.application.persistence.HighScoreStorageRepository;
 import de.dhbwka.uno.application.persistence.InMemoryHighScoreRepository;
 import de.dhbwka.uno.domain.*;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.application.model.PlayerWithConnection;
 import de.dhbwka.uno.application.model.SimplePlayerWithConnection;
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
+import de.dhbwka.uno.application.persistence.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.Card;
 import de.dhbwka.uno.domain.CardStack;
 import de.dhbwka.uno.domain.Player;

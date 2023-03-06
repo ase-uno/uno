@@ -1,7 +1,7 @@
 package de.dhbwka.uno.application.game;
 
 import de.dhbwka.uno.application.model.PlayerWithConnection;
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
+import de.dhbwka.uno.application.persistence.HighScoreStorageRepository;
 import de.dhbwka.uno.application.persistence.InMemoryHighScoreRepository;
 import de.dhbwka.uno.domain.*;
 

@@ -3,16 +3,14 @@ package de.dhbwka.uno.adapters.persistence;
 import de.dhbwka.uno.adapters.json.JsonNumber;
 import de.dhbwka.uno.adapters.json.JsonObject;
 import de.dhbwka.uno.adapters.mapper.HighScoreMapper;
-import de.dhbwka.uno.application.persistance.HighScoreStorageRepository;
+import de.dhbwka.uno.application.persistence.HighScoreStorageRepository;
 import de.dhbwka.uno.domain.HighScore;
 import de.dhbwka.uno.domain.SimplePlayer;
-
-import java.io.File;
 
 public class HighScoreStorage implements HighScoreStorageRepository {
 
     private final AbstractStorageRepository abstractStorageRepository;
-    private static final String FILE_PATH = "storage" + File.separator + "highscore.json";
+    private static final String STORAGE_IDENTIFIER = "highscore";
 
     public HighScoreStorage(AbstractStorageRepository abstractStorageRepository) {
         this.abstractStorageRepository = abstractStorageRepository;
@@ -26,7 +24,11 @@ public class HighScoreStorage implements HighScoreStorageRepository {
 
         jsonObject.set(player.getName(), new JsonNumber(wins + 1));
 
-        abstractStorageRepository.save(FILE_PATH, jsonObject);
+        try {
+            abstractStorageRepository.save(STORAGE_IDENTIFIER, jsonObject);
+        } catch (PersistenceException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -36,8 +38,16 @@ public class HighScoreStorage implements HighScoreStorageRepository {
     }
 
     private JsonObject getHighScoreFile() {
-        JsonObject jsonObject = (JsonObject) abstractStorageRepository.load(FILE_PATH);
-        return jsonObject != null ? jsonObject : new JsonObject();
+        JsonObject jsonObject;
+
+        try {
+            jsonObject = (JsonObject) abstractStorageRepository.load(STORAGE_IDENTIFIER);
+        } catch (PersistenceException ex) {
+            ex.printStackTrace();
+            return new JsonObject();
+        }
+
+        return jsonObject;
     }
 
     private int getWins(JsonObject highScoreFile, SimplePlayer player) {

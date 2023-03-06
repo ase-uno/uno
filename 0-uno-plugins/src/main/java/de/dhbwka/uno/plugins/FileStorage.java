@@ -1,9 +1,12 @@
 package de.dhbwka.uno.plugins;
 
+import de.dhbwka.uno.adapters.json.JsonConvertException;
 import de.dhbwka.uno.adapters.json.JsonConverter;
 import de.dhbwka.uno.adapters.json.JsonElement;
 import de.dhbwka.uno.adapters.persistence.AbstractStorageRepository;
+import de.dhbwka.uno.adapters.persistence.PersistenceException;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,34 +15,44 @@ import java.nio.file.Path;
 public class FileStorage implements AbstractStorageRepository {
 
     @Override
-    public JsonElement load(String fileName) {
+    public JsonElement load(String identifier) throws PersistenceException {
+        String content;
+
         try {
-            String content = new String(Files.readAllBytes(Path.of(fileName)));
+            content = new String(Files.readAllBytes(pathFrom(identifier)));
+        } catch (IOException ex) {
+            throw new PersistenceException("Could not load file \"" + identifier + "\"", ex);
+        }
+
+        try {
             return new JsonConverter().fromJsonString(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        } catch (JsonConvertException ex) {
+            throw new PersistenceException("File content is not JSON formatted", ex);
         }
     }
 
     @Override
-    public void save(String fileName, JsonElement content) {
-        Path path = Path.of(fileName);
+    public void save(String identifier, JsonElement content) throws PersistenceException {
+        Path path = pathFrom(identifier);
 
         try {
             if (!Files.exists(path)) {
                 Files.createDirectories(path.getParent());
                 Files.createFile(path);
             }
-        } catch (Exception e) {
-            return;
+        } catch (IOException ex) {
+            throw new PersistenceException("Could not save file \"" + identifier + "\"", ex);
         }
 
-        try (FileWriter fileWriter = new FileWriter(fileName)) {
+        try (FileWriter fileWriter = new FileWriter(identifier)) {
             fileWriter.write(content.toJsonString());
-        } catch (IOException ignored) {
-            //if it does not work, we just ignore it :)
+        } catch (IOException ex) {
+            throw new PersistenceException("Could not write to file \"" + identifier + "\"", ex);
         }
+    }
+
+    private Path pathFrom(String identifier) {
+        return Path.of("storage" + File.separator + identifier + ".json");
     }
 
 }

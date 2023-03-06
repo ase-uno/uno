@@ -27,6 +27,7 @@ public class Main {
 
         String name = inputName();
         int mode = inputMode();
+
         start(name, mode);
     }
 
@@ -45,7 +46,6 @@ public class Main {
 
 
     private static int inputMode() {
-
         console.println("0) Server öffnen");
         console.println("1) Mit anderem Server verbinden");
         console.println();
@@ -64,21 +64,28 @@ public class Main {
     }
 
     private static void start(String name, int mode) {
-
         if (mode == 0) {
-            SimplePlayer player = new SimplePlayer(name);
-            PlayerConnection connection = new ConsolePlayerConnection(console);
-
-            new Server(new SimplePlayerWithConnection(player, connection),
-                    new ConnectionServerSocket(PORT),
-                    console,
-                    new CardProviderImpl(),
-                    new HighScoreStorage(new FileStorage()));
+            startServer(name);
         } else {
-            new Client(name, console,
-                    new ConsolePlayerConnection(console),
-                    new ConnectionInitializerImpl(PORT));
+            startClient(name);
         }
+    }
+
+    private static void startServer(String name) {
+        SimplePlayer player = new SimplePlayer(name);
+        PlayerConnection connection = new ConsolePlayerConnection(console);
+
+        new Server(new SimplePlayerWithConnection(player, connection),
+                new ConnectionServerSocket(PORT),
+                console,
+                new CardProviderImpl(),
+                new HighScoreStorage(new FileStorage()));
+    }
+
+    private static void startClient(String name) {
+        new Client(name, console,
+                new ConsolePlayerConnection(console),
+                new ConnectionInitializerImpl(PORT));
     }
 
 }
