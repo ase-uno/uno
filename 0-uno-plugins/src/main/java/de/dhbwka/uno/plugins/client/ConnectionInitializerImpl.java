@@ -15,7 +15,7 @@ public class ConnectionInitializerImpl implements ConnectionInitializer {
 
     @Override
     public void connect(String localPlayerName, PlayerConnection playerConnection, Console console) {
-        console.println("Ziel-IP: ");
+        console.println("Target IP: ");
 
         String ip = console.readLine();
 

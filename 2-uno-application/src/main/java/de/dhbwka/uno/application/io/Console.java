@@ -10,13 +10,11 @@ public interface Console {
         println(ConsoleColor.RESET, message);
     }
 
-    default void println(ConsoleColor color, String message) {
-        print(color, message + "\n");
-    }
-
     default void println() {
         println("");
     }
+
+    void println(ConsoleColor color, String message);
 
     void print(ConsoleColor color, String message);
 

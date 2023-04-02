@@ -21,7 +21,7 @@ public class Main {
     private static final Console console = new ConsoleImpl();
 
     public static void main(String[] args) {
-        console.println(ConsoleColor.YELLOW, "Willkommen");
+        console.println(ConsoleColor.YELLOW, "Welcome");
 
         console.println();
 
@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static String inputName() {
-        console.println("Wie heißt du?");
+        console.println("What's your name?");
 
         String name;
         do {
@@ -46,8 +46,8 @@ public class Main {
 
 
     private static int inputMode() {
-        console.println("0) Server öffnen");
-        console.println("1) Mit anderem Server verbinden");
+        console.println("0) Start server");
+        console.println("1) Connect to server");
         console.println();
         console.println("Input:");
 

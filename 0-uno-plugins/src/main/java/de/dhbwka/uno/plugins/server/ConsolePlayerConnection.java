@@ -26,6 +26,8 @@ public class ConsolePlayerConnection implements PlayerConnection {
         printCard(active);
         console.println();
 
+        console.println("-1) Draw card");
+
         for (int i = 0; i < cardStack.cardList().size(); i++) {
             console.println(i + ") " + cardToString(cardStack.cardList().get(i)));
         }
